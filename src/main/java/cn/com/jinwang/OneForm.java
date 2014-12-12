@@ -20,7 +20,7 @@ public class OneForm extends WebPage {
       private final class MessageForm extends Form {
         public MessageForm(String id, IModel model) {
           super(id);
-          add(new TextField<>("messageInput", model));
+          add(new TextField("messageInput", model));
         }
 
         protected void onSubmit() {

@@ -35,7 +35,6 @@ public class SelectDataModel {
     }
   }
 
-
   public SelectDataModel(String... pairs) {
     initMe(pairs);
   }

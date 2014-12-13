@@ -29,7 +29,6 @@ import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 
-
 import javax.persistence.JoinTable;
 
 /**
@@ -60,27 +59,23 @@ public class UserGroup extends BaseDomain
   @JoinColumn(name = "creator_id", referencedColumnName = "id")
   private LocalUser creator;
 
-
   @Expose
   @Temporal(TIMESTAMP)
   private Date createdAt = new Date();
 
-
-//  @OneToMany(fetch = FetchType.LAZY)
-//  private List<NameValueValue> nameValueValues = Lists.newArrayList();
+  // @OneToMany(fetch = FetchType.LAZY)
+  // private List<NameValueValue> nameValueValues = Lists.newArrayList();
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(joinColumns = @JoinColumn(name = "UserGroup_id", referencedColumnName = "id"))
   private Set<LocalRole> roles = Sets.newHashSet();
 
-
   @ManyToMany(fetch = FetchType.LAZY)
   private Set<LocalUser> sharedUsers = Sets.newHashSet();
 
-
   @ManyToMany
   private Set<MixDomainPermission> permissions = Sets.newHashSet();
-  
+
   @ManyToMany(fetch = FetchType.LAZY)
   private Set<UserGroup> sharedGroups = Sets.newHashSet();
 
@@ -92,7 +87,6 @@ public class UserGroup extends BaseDomain
     this.roles = roles;
   }
 
-
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -101,11 +95,9 @@ public class UserGroup extends BaseDomain
     this.createdAt = createdAt;
   }
 
-
   public Set<MixDomainPermission> getPermissions() {
     return permissions;
   }
-
 
   public void setPermissions(Set<MixDomainPermission> permissions) {
     this.permissions = permissions;
@@ -135,7 +127,6 @@ public class UserGroup extends BaseDomain
     this.sharedUsers = sharedUsers;
   }
 
-
   @Override
   public JsonObject toJsonObject(String jsonv) {
     return toJsonObject();
@@ -147,42 +138,42 @@ public class UserGroup extends BaseDomain
   }
 
   public static Optional<UserGroup> find(long id) {
-//    return StaticEntityManagerHolder.getUgRepo().findById(id);
-	  return null;
+    // return StaticEntityManagerHolder.getUgRepo().findById(id);
+    return null;
   }
 
   public static void delete(UserGroup ug) {
-//    StaticEntityManagerHolder.getUgRepo().delete(ug);
+    // StaticEntityManagerHolder.getUgRepo().delete(ug);
   }
 
   public void save() {
-//    StaticEntityManagerHolder.getUgRepo().save(this);
+    // StaticEntityManagerHolder.getUgRepo().save(this);
   }
-
 
   @Override
   public void copyProperties(UserGroup clientBean, String putsString) {
     setName(clientBean.getName());
   }
-  
+
   public void addRole(LocalRole role) {
     getRoles().add(role);
     save();
   }
-  
+
   public void removeRole(LocalRole role) {
     getRoles().remove(role);
     save();
   }
-  
-//  public boolean canMngMember(M3958SecurityUtil secUtil) {
-//    return secUtil
-//        .isAnyPermitted(getPermissionString(ActionEnum.MNG_MEMBER.toString()));
-//  }
-//
-//  public boolean canListArticle(M3958SecurityUtil secUtil) {
-//    return secUtil.isAnyPermitted(getPermissionString(Section.ActionEnum.LIST_ARTICLE.toString()));
-//  }
+
+  // public boolean canMngMember(M3958SecurityUtil secUtil) {
+  // return secUtil
+  // .isAnyPermitted(getPermissionString(ActionEnum.MNG_MEMBER.toString()));
+  // }
+  //
+  // public boolean canListArticle(M3958SecurityUtil secUtil) {
+  // return
+  // secUtil.isAnyPermitted(getPermissionString(Section.ActionEnum.LIST_ARTICLE.toString()));
+  // }
 
   @Override
   public String[] getPermissionString(String... actions) {
@@ -193,14 +184,15 @@ public class UserGroup extends BaseDomain
   public List<MixDomainPermission> createAllMixPermissions() {
     List<MixDomainPermission> mps = Lists.newArrayList();
 
-//    for (ActionEnum ae : ActionEnum.values()) {
-//      if (ae == ActionEnum.ADD) continue;
-//      MixDomainPermission mp =
-//          new MixDomainPermission(this.getClass().getSimpleName(), ae.toString(),
-//              String.valueOf(getId()));
-//      StaticEntityManagerHolder.getMpRepo().save(mp);
-//      mps.add(mp);
-//    }
+    // for (ActionEnum ae : ActionEnum.values()) {
+    // if (ae == ActionEnum.ADD) continue;
+    // MixDomainPermission mp =
+    // new MixDomainPermission(this.getClass().getSimpleName(),
+    // ae.toString(),
+    // String.valueOf(getId()));
+    // StaticEntityManagerHolder.getMpRepo().save(mp);
+    // mps.add(mp);
+    // }
     return mps;
   }
 
@@ -208,7 +200,7 @@ public class UserGroup extends BaseDomain
   public MixDomainPermission getAddPermission() {
     return null;
   }
-  
+
   public void addPermission(List<MixDomainPermission> mps) {
     getPermissions().addAll(mps);
     save();
@@ -222,9 +214,9 @@ public class UserGroup extends BaseDomain
     this.sharedGroups = sharedGroups;
   }
 
-@Override
-public boolean amIOwner(long userid) {
-	return false;
-}
+  @Override
+  public boolean amIOwner(long userid) {
+    return false;
+  }
 
 }

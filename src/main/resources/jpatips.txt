@@ -1,0 +1,14 @@
+JPA 2.0
+entityManager.getTransaction().begin();
+java.sql.Connection connection = entityManager.unwrap(java.sql.Connection.class);
+...
+entityManager.getTransaction().commit();
+
+如果这样定义个entity
+@Entity
+@Table(name = "LOCAL_USER", uniqueConstraints = {
+		@UniqueConstraint(columnNames = { "email" }),
+		@UniqueConstraint(columnNames = { "mobile" }) })
+		
+那么： "DELETE FROM LocalUser m"会产生：
+The abstract schema type 'LocalUser' is unknown.错误。

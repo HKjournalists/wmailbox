@@ -6,7 +6,6 @@ import java.util.Set;
 
 import javax.persistence.*;
 
-
 import cn.com.jinwang.interf.HasCreatedAt;
 import cn.com.jinwang.misc.SelectDataModel;
 
@@ -26,7 +25,6 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 @Table(name = "LOCAL_USER", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"}),
     @UniqueConstraint(columnNames = {"mobile"})})
 public class LocalUser extends BaseDomain implements HasCreatedAt {
-
 
   private static final long serialVersionUID = 1L;
 
@@ -66,7 +64,6 @@ public class LocalUser extends BaseDomain implements HasCreatedAt {
   @Enumerated(STRING)
   private ActivityState activityState;
 
-
   @Expose
   private String nickname;
 
@@ -93,18 +90,15 @@ public class LocalUser extends BaseDomain implements HasCreatedAt {
   @Temporal(TIMESTAMP)
   private Date lockOutAt = new Date();
 
-
   private String readedBc;
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "LOCAL_USER_LOCAL_ROLE", joinColumns = @JoinColumn(name = "LOCAL_USER_ID", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "id"))
   private Set<LocalRole> roles = Sets.newHashSet();
 
-
   @ManyToMany
   @JoinTable(name = "LOCAL_USER_MIXPERMISSION", joinColumns = @JoinColumn(name = "LOCAL_USER_ID", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "MIXPERMISSION_ID", referencedColumnName = "id"))
   private Set<MixDomainPermission> permissions = Sets.newHashSet();
-
 
   @ManyToMany(fetch = FetchType.LAZY)
   private Set<UserGroup> groups = Sets.newHashSet();
@@ -120,7 +114,6 @@ public class LocalUser extends BaseDomain implements HasCreatedAt {
     }
   }
 
-
   public Set<LocalRole> getRoles() {
     return roles;
   }
@@ -128,7 +121,6 @@ public class LocalUser extends BaseDomain implements HasCreatedAt {
   public void setRoles(Set<LocalRole> roles) {
     this.roles = roles;
   }
-
 
   public Date getCreatedAt() {
     return createdAt;
@@ -138,33 +130,34 @@ public class LocalUser extends BaseDomain implements HasCreatedAt {
     this.createdAt = createdAt;
   }
 
-
   public Set<MixDomainPermission> getPermissions() {
     return permissions;
   }
 
-
-//  public List<MixDomainPermission> getPermissions(QueryPageInfo qpif, String qstr) {
-//    return StaticEntityManagerHolder.getMpRepo().myPermissions(qpif.getStart(), qpif.getEnd(),
-//        this, qstr);
-//  }
-//
-//  public long countPermissions(String qstr) {
-//    return StaticEntityManagerHolder.getMpRepo().countMyPermissions(this, qstr);
-//  }
+  // public List<MixDomainPermission> getPermissions(QueryPageInfo qpif,
+  // String qstr) {
+  // return
+  // StaticEntityManagerHolder.getMpRepo().myPermissions(qpif.getStart(),
+  // qpif.getEnd(),
+  // this, qstr);
+  // }
+  //
+  // public long countPermissions(String qstr) {
+  // return StaticEntityManagerHolder.getMpRepo().countMyPermissions(this,
+  // qstr);
+  // }
 
   public void setPermissions(Set<MixDomainPermission> permissions) {
     this.permissions = permissions;
   }
 
-//  public Set<DiskFilePath> getDiskfilePathes() {
-//    return diskfilePathes;
-//  }
-//
-//  public void setDiskfilePathes(Set<DiskFilePath> diskfilePathes) {
-//    this.diskfilePathes = diskfilePathes;
-//  }
-
+  // public Set<DiskFilePath> getDiskfilePathes() {
+  // return diskfilePathes;
+  // }
+  //
+  // public void setDiskfilePathes(Set<DiskFilePath> diskfilePathes) {
+  // this.diskfilePathes = diskfilePathes;
+  // }
 
   public String getNickname() {
     return nickname;
@@ -198,7 +191,6 @@ public class LocalUser extends BaseDomain implements HasCreatedAt {
     this.mobile = mobile;
   }
 
-
   public Set<UserGroup> getGroups() {
     return groups;
   }
@@ -207,79 +199,81 @@ public class LocalUser extends BaseDomain implements HasCreatedAt {
     this.groups = groups;
   }
 
-//  public List<NameValueValue> getNameValueValues() {
-//    return nameValueValues;
-//  }
-//
-//  public boolean isLocakOuted(PasswordValidateService pvs) {
-//    return pvs.isLockOuted(this);
-//  }
-//
-//  public List<NameValueValue> getNameValueValues(String name) {
-//    List<NameValueValue> result = Lists.newArrayList();
-//    for (NameValueValue nv : getNameValueValues()) {
-//      if (name.equals(nv.getName())) {
-//        result.add(nv);
-//      }
-//    }
-//    return result;
-//  }
-//
-//
-//  public List<NameValueValue> getNameValueValues(String name, String value) {
-//    List<NameValueValue> result = Lists.newArrayList();
-//    for (NameValueValue nv : getNameValueValues()) {
-//      if (name.equals(nv.getName()) && value.equals(nv.getValue())) {
-//        result.add(nv);
-//      }
-//    }
-//    return result;
-//  }
-//
-//  public String getNameValueValuesAsJson(String name) {
-//    Set<NameValueValue> result = Sets.newHashSet();
-//    for (NameValueValue nv : getNameValueValues()) {
-//      if (name.equals(nv.getName())) {
-//        result.add(nv);
-//      }
-//    }
-//    return StaticEntityManagerHolder.getGson().toJson(result,
-//        AppTypeToken.nameValuePairSetTypeToken);
-//  }
-//
-//  public String getNameValueValuesAsJson(String name, String value) {
-//    Set<NameValueValue> result = Sets.newHashSet();
-//    for (NameValueValue nv : getNameValueValues()) {
-//      if (name.equals(nv.getName()) && value.equals(nv.getValue())) {
-//        result.add(nv);
-//      }
-//    }
-//    return StaticEntityManagerHolder.getGson().toJson(result,
-//        AppTypeToken.nameValuePairSetTypeToken);
-//  }
-//
-//  public void updateUniqueTwo(NameValueValue nvv) {
-//    List<NameValueValue> old = getNameValueValues();
-//    List<NameValueValue> newv = Lists.newArrayList();
-//    for (NameValueValue n : old) {
-//      if (n.getName().equals(nvv.getName()) && n.getValue().equals(nvv.getValue())) {
-//        ;
-//      } else {
-//        newv.add(n);
-//      }
-//    }
-//    newv.add(nvv);
-//    setNameValueValues(newv);
-//  }
-//
-//  public void updateUniqueTwo(Optional<NameValueValue> nvvOp) {
-//    updateUniqueTwo(nvvOp.get());
-//  }
-//
-//  public void setNameValueValues(List<NameValueValue> nameValueValues) {
-//    this.nameValueValues = nameValueValues;
-//  }
-  
+  // public List<NameValueValue> getNameValueValues() {
+  // return nameValueValues;
+  // }
+  //
+  // public boolean isLocakOuted(PasswordValidateService pvs) {
+  // return pvs.isLockOuted(this);
+  // }
+  //
+  // public List<NameValueValue> getNameValueValues(String name) {
+  // List<NameValueValue> result = Lists.newArrayList();
+  // for (NameValueValue nv : getNameValueValues()) {
+  // if (name.equals(nv.getName())) {
+  // result.add(nv);
+  // }
+  // }
+  // return result;
+  // }
+  //
+  //
+  // public List<NameValueValue> getNameValueValues(String name, String value)
+  // {
+  // List<NameValueValue> result = Lists.newArrayList();
+  // for (NameValueValue nv : getNameValueValues()) {
+  // if (name.equals(nv.getName()) && value.equals(nv.getValue())) {
+  // result.add(nv);
+  // }
+  // }
+  // return result;
+  // }
+  //
+  // public String getNameValueValuesAsJson(String name) {
+  // Set<NameValueValue> result = Sets.newHashSet();
+  // for (NameValueValue nv : getNameValueValues()) {
+  // if (name.equals(nv.getName())) {
+  // result.add(nv);
+  // }
+  // }
+  // return StaticEntityManagerHolder.getGson().toJson(result,
+  // AppTypeToken.nameValuePairSetTypeToken);
+  // }
+  //
+  // public String getNameValueValuesAsJson(String name, String value) {
+  // Set<NameValueValue> result = Sets.newHashSet();
+  // for (NameValueValue nv : getNameValueValues()) {
+  // if (name.equals(nv.getName()) && value.equals(nv.getValue())) {
+  // result.add(nv);
+  // }
+  // }
+  // return StaticEntityManagerHolder.getGson().toJson(result,
+  // AppTypeToken.nameValuePairSetTypeToken);
+  // }
+  //
+  // public void updateUniqueTwo(NameValueValue nvv) {
+  // List<NameValueValue> old = getNameValueValues();
+  // List<NameValueValue> newv = Lists.newArrayList();
+  // for (NameValueValue n : old) {
+  // if (n.getName().equals(nvv.getName()) &&
+  // n.getValue().equals(nvv.getValue())) {
+  // ;
+  // } else {
+  // newv.add(n);
+  // }
+  // }
+  // newv.add(nvv);
+  // setNameValueValues(newv);
+  // }
+  //
+  // public void updateUniqueTwo(Optional<NameValueValue> nvvOp) {
+  // updateUniqueTwo(nvvOp.get());
+  // }
+  //
+  // public void setNameValueValues(List<NameValueValue> nameValueValues) {
+  // this.nameValueValues = nameValueValues;
+  // }
+
   public Set<String> getRoleNames() {
     Set<String> rns = Sets.newHashSet();
     for (LocalRole lr : this.getRoles()) {
@@ -291,11 +285,13 @@ public class LocalUser extends BaseDomain implements HasCreatedAt {
   @Override
   public JsonObject toJsonObject(String jsonv) {
     JsonObject jo = toJsonObject();
-//    if (jsonv != null) {
-//      if ("v".equals(jsonv)){
-//        jo.add("roles", StaticEntityManagerHolder.getGson().toJsonTree(getRoleNames(), AppTypeToken.stringListTypeToken));
-//      }
-//    }
+    // if (jsonv != null) {
+    // if ("v".equals(jsonv)){
+    // jo.add("roles",
+    // StaticEntityManagerHolder.getGson().toJsonTree(getRoleNames(),
+    // AppTypeToken.stringListTypeToken));
+    // }
+    // }
     return jo;
   }
 
@@ -324,16 +320,16 @@ public class LocalUser extends BaseDomain implements HasCreatedAt {
   }
 
   public void save() {
-//    StaticEntityManagerHolder.getUserRepo().save(this);
+    // StaticEntityManagerHolder.getUserRepo().save(this);
   }
 
   public static Optional<LocalUser> find(long id) {
-//    return StaticEntityManagerHolder.getUserRepo().findById(id);
-	  return null;
+    // return StaticEntityManagerHolder.getUserRepo().findById(id);
+    return null;
   }
 
   public static void delete(LocalUser user) {
-//    StaticEntityManagerHolder.getUserRepo().delete(user);
+    // StaticEntityManagerHolder.getUserRepo().delete(user);
   }
 
   public Date getPwdUpdatedAt() {
@@ -351,59 +347,60 @@ public class LocalUser extends BaseDomain implements HasCreatedAt {
   public void setLockOutAt(Date lockOutAt) {
     this.lockOutAt = lockOutAt;
   }
-  
+
   public void JoinGroup(UserGroup ug) {
     getGroups().add(ug);
     save();
   }
-  
+
   public void leaveGroup(UserGroup ug) {
     getGroups().remove(ug);
     save();
   }
-  
+
   public void JoinGroup(List<UserGroup> ugs) {
     getGroups().addAll(ugs);
     save();
   }
-  
+
   public void leaveGroup(List<UserGroup> ugs) {
     getGroups().removeAll(ugs);
     save();
   }
-  
+
   public void JoinGroup(Optional<UserGroup> ugOp) {
     JoinGroup(ugOp.get());
   }
-  
+
   public void leaveGroup(Optional<UserGroup> ugOp) {
     leaveGroup(ugOp.get());
   }
-  
+
   public void addRole(LocalRole role) {
     getRoles().add(role);
     save();
   }
-  
+
   public void removeRole(LocalRole role) {
     getRoles().remove(role);
     save();
   }
+
   public void addRole(List<LocalRole> roles) {
     getRoles().addAll(roles);
     save();
   }
-  
+
   public void removeRole(List<LocalRole> roles) {
     getRoles().removeAll(roles);
     save();
   }
-  
+
   public void addPermissions(List<MixDomainPermission> mps) {
     getPermissions().addAll(mps);
     save();
   }
-  
+
   public boolean hasRole(LocalRole role) {
     return getRoles().contains(role);
   }

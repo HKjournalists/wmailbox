@@ -25,7 +25,6 @@ public class SortBy {
         .toString();
   }
 
-
   public boolean isAsc() {
     return asc;
   }
@@ -42,7 +41,6 @@ public class SortBy {
     this.field = field;
   }
 
-
   public String getDirection() {
     return direction;
   }
@@ -50,6 +48,5 @@ public class SortBy {
   public void setDirection(String direction) {
     this.direction = direction;
   }
-
 
 }

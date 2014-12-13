@@ -1,6 +1,5 @@
 package cn.com.jinwang.domain;
 
-
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -15,8 +14,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 
 /**
- * Entity implementation class for Entity:
- * AclPermission,其实这个不需要实现permission，因为可以直接在localuserrealm中产生wildcardpermission，就像role一样。
+ * Entity implementation class for Entity: AclPermission,其实这个不需要实现permission，
+ * 因为可以直接在localuserrealm中产生wildcardpermission，就像role一样。
  * 
  */
 @Entity
@@ -42,22 +41,16 @@ public class MixDomainPermission extends BaseDomain
     this.targets = targets;
   }
 
-
   @Basic(optional = false)
   @Expose
-  
-  
   private String simpleName;
 
   @Basic(optional = false)
   @Expose
-  
-  
   private String actions;
 
   @Basic(optional = false)
   @Expose
-  
   private String targets;
 
   public String getSimpleName() {
@@ -100,34 +93,36 @@ public class MixDomainPermission extends BaseDomain
 
   public static Optional<MixDomainPermission> byAllFields(String simpleName, String actions,
       String targets) {
-//    return StaticEntityManagerHolder.getMpRepo().byAllFields(simpleName, actions, targets);
-	  return null;
+    // return StaticEntityManagerHolder.getMpRepo().byAllFields(simpleName,
+    // actions, targets);
+    return null;
   }
 
   public static Optional<MixDomainPermission> find(long id) {
-//    return StaticEntityManagerHolder.getMpRepo().findById(id);
-	  return null;
+    // return StaticEntityManagerHolder.getMpRepo().findById(id);
+    return null;
   }
 
   public static void delete(MixDomainPermission mp) {
-//    List<LocalUser> lus = StaticEntityManagerHolder.getUserRepo().hasThisPermission(mp);
-//    for (LocalUser lu : lus) {
-//      lu.getPermissions().remove(mp);
-//      StaticEntityManagerHolder.getUserRepo().save(lu);
-//    }
-//
-//    List<UserGroup> ugs = StaticEntityManagerHolder.getUgRepo().hasThisPermission(mp);
-//    for (UserGroup ug : ugs) {
-//      ug.getPermissions().remove(mp);
-//      StaticEntityManagerHolder.getUgRepo().save(ug);
-//    }
-//
-//    StaticEntityManagerHolder.getMpRepo().delete(mp);
+    // List<LocalUser> lus =
+    // StaticEntityManagerHolder.getUserRepo().hasThisPermission(mp);
+    // for (LocalUser lu : lus) {
+    // lu.getPermissions().remove(mp);
+    // StaticEntityManagerHolder.getUserRepo().save(lu);
+    // }
+    //
+    // List<UserGroup> ugs =
+    // StaticEntityManagerHolder.getUgRepo().hasThisPermission(mp);
+    // for (UserGroup ug : ugs) {
+    // ug.getPermissions().remove(mp);
+    // StaticEntityManagerHolder.getUgRepo().save(ug);
+    // }
+    //
+    // StaticEntityManagerHolder.getMpRepo().delete(mp);
   }
 
-
   public void save() {
-//    StaticEntityManagerHolder.getMpRepo().save(this);
+    // StaticEntityManagerHolder.getMpRepo().save(this);
   }
 
   @Override
@@ -155,18 +150,24 @@ public class MixDomainPermission extends BaseDomain
   // | C O N S T R U C T O R S |
   // ============================================*/
   // /**
-  // * Default no-arg constructor for subclasses only - end-user developers instantiating Permission
+  // * Default no-arg constructor for subclasses only - end-user developers
+  // instantiating Permission
   // instances must
-  // * provide a wildcard string at a minimum, since Permission instances are immutable once
+  // * provide a wildcard string at a minimum, since Permission instances are
+  // immutable once
   // instantiated.
   // * <p/>
-  // * Note that the WildcardPermission class is very robust and typically subclasses are not
+  // * Note that the WildcardPermission class is very robust and typically
+  // subclasses are not
   // necessary unless you
-  // * wish to create type-safe Permission objects that would be used in your application, such as
+  // * wish to create type-safe Permission objects that would be used in your
+  // application, such as
   // perhaps a
-  // * {@code UserPermission}, {@code SystemPermission}, {@code PrinterPermission}, etc. If you want
+  // * {@code UserPermission}, {@code SystemPermission}, {@code
+  // PrinterPermission}, etc. If you want
   // such type-safe
-  // * permission usage, consider subclassing the {@link DomainPermission DomainPermission} class
+  // * permission usage, consider subclassing the {@link DomainPermission
+  // DomainPermission} class
   // for your needs.
   // */
   // protected WildcardPermission() {
@@ -192,11 +193,13 @@ public class MixDomainPermission extends BaseDomain
   //
   // wildcardString = wildcardString.trim();
   //
-  // List<String> parts = CollectionUtils.asList(wildcardString.split(PART_DIVIDER_TOKEN));
+  // List<String> parts =
+  // CollectionUtils.asList(wildcardString.split(PART_DIVIDER_TOKEN));
   //
   // this.parts = new ArrayList<Set<String>>();
   // for (String part : parts) {
-  // Set<String> subparts = CollectionUtils.asSet(part.split(SUBPART_DIVIDER_TOKEN));
+  // Set<String> subparts =
+  // CollectionUtils.asSet(part.split(SUBPART_DIVIDER_TOKEN));
   // if (!caseSensitive) {
   // subparts = lowercase(subparts);
   // }
@@ -214,7 +217,8 @@ public class MixDomainPermission extends BaseDomain
   // }
 
   // private Set<String> lowercase(Set<String> subparts) {
-  // Set<String> lowerCasedSubparts = new LinkedHashSet<String>(subparts.size());
+  // Set<String> lowerCasedSubparts = new
+  // LinkedHashSet<String>(subparts.size());
   // for (String subpart : subparts) {
   // lowerCasedSubparts.add(subpart.toLowerCase());
   // }
@@ -244,7 +248,8 @@ public class MixDomainPermission extends BaseDomain
   //
   // int i = 0;
   // for (Set<String> otherPart : otherParts) {
-  // // If this permission has less parts than the other permission, everything after the number of
+  // // If this permission has less parts than the other permission,
+  // everything after the number of
   // parts contained
   // // in this permission is automatically implied, so return true
   // if (getParts().size() - 1 < i) {
@@ -258,7 +263,8 @@ public class MixDomainPermission extends BaseDomain
   // }
   // }
   //
-  // // If this permission has more parts than the other parts, only imply it if all of the other
+  // // If this permission has more parts than the other parts, only imply it
+  // if all of the other
   // parts are wildcards
   // for (; i < getParts().size(); i++) {
   // Set<String> part = getParts().get(i);

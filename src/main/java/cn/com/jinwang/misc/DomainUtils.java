@@ -47,7 +47,7 @@ public class DomainUtils {
     return result;
   }
 
-   public static <T extends Tree<T>> List<T> getBreadCrumb(T domain) {
+  public static <T extends Tree<T>> List<T> getBreadCrumb(T domain) {
     List<T> b = Lists.newArrayList();
     b.add(domain);
     T p = domain.getParent();
@@ -75,15 +75,15 @@ public class DomainUtils {
     }
     domain.setParentIds(sb.toString());
   }
-  
+
   public static String[] getAllActions(Enum[] enus) {
     int l = enus.length;
     String[] acs = new String[l];
-    
-    for(int i = 0; i < l; i++) {
+
+    for (int i = 0; i < l; i++) {
       acs[i] = enus[i].toString();
     }
     return acs;
   }
-  
+
 }

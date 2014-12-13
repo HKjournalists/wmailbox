@@ -4,16 +4,15 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-
 import cn.com.jinwang.domain.LocalUser;
 import cn.com.jinwang.sql.SortBy;
 
 import com.google.common.base.Optional;
 
-
 public interface GenericRepository<T, ID extends Serializable> {
 
-  // ~ Methods ----------------------------------------------------------------
+  // ~ Methods
+  // ----------------------------------------------------------------
 
   /**
    * Get the Class of the entity.
@@ -35,10 +34,11 @@ public interface GenericRepository<T, ID extends Serializable> {
   List<T> findByIds(Long[] ids);
 
   List<T> findByIds(List<Long> ids);
-  
-//  List<T> byReqInfo(RequestInfo reqInfo) throws AccessDenyException;
-//  
-//  List<T> byReqInfo(RequestInfo reqInfo, int defaultpp) throws AccessDenyException;
+
+  // List<T> byReqInfo(RequestInfo reqInfo) throws AccessDenyException;
+  //
+  // List<T> byReqInfo(RequestInfo reqInfo, int defaultpp) throws
+  // AccessDenyException;
 
   Optional<T> findById(final Optional<ID> idOp);
 
@@ -93,7 +93,6 @@ public interface GenericRepository<T, ID extends Serializable> {
    */
   int countByExample(final T exampleInstance);
 
-
   /**
    * save an entity. This can be either a INSERT or UPDATE in the database.
    * 
@@ -102,7 +101,6 @@ public interface GenericRepository<T, ID extends Serializable> {
    * @return the saved entity
    */
   T save(final T entity);
-
 
   T update(final T entity);
 
@@ -123,7 +121,6 @@ public interface GenericRepository<T, ID extends Serializable> {
 
   long countAll(Optional<String> qstr);
 
-
   List<T> findAllMine(LocalUser user, int startRow, int endRow, Optional<SortBy> sortBy,
       Optional<String> qstr);
 
@@ -139,8 +136,6 @@ public interface GenericRepository<T, ID extends Serializable> {
   List<T> findAllMine(LocalUser user);
 
   long countAllMine(LocalUser user);
-
-
 
   List<T> findAllOthers(LocalUser user, int startRow, int endRow, Optional<SortBy> sortBy,
       Optional<String> qstr);
@@ -162,4 +157,6 @@ public interface GenericRepository<T, ID extends Serializable> {
   List<T> findAllByOneField(String fieldName, Long fieldValue);
 
   List<T> amIInSharedUsers(LocalUser user);
+
+  void deleteAll();
 }

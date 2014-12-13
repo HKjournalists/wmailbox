@@ -23,7 +23,6 @@ import com.google.common.base.Optional;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 
-
 import javax.persistence.JoinTable;
 import javax.persistence.Column;
 
@@ -111,20 +110,18 @@ public class LocalRole extends BaseDomain
   }
 
   public void save() {
-//    StaticEntityManagerHolder.getRoleRepo().save(this);
+    // StaticEntityManagerHolder.getRoleRepo().save(this);
   }
 
-
   public static Optional<LocalRole> find(long id) {
-//    return StaticEntityManagerHolder.getRoleRepo().findById(id);
-	  return null;
+    // return StaticEntityManagerHolder.getRoleRepo().findById(id);
+    return null;
   }
 
   public static Optional<LocalRole> find(Optional<Long> idOp) {
-//    return StaticEntityManagerHolder.getRoleRepo().findById(idOp);
-	  return null;
+    // return StaticEntityManagerHolder.getRoleRepo().findById(idOp);
+    return null;
   }
-
 
   @Override
   public void copyProperties(LocalRole clientBean, String putString) {

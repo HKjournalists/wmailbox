@@ -79,7 +79,7 @@ public abstract class BaseDomain implements Serializable, HasLongId, HasToJson {
   public JsonObject toJsonObject() {
     return null;
   }
-  
+
   public abstract void save();
 
 }

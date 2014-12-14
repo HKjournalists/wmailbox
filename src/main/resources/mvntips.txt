@@ -1,0 +1,8 @@
+To run a single test method in Maven, you need to provide the command as:
+
+mvn -Dtest=TestCircle#xyz test
+where TestCircle is the test class name and xyz is the test method,
+
+wild card characters also work (both in the method name and class name).
+
+mvnDebug jetty:run

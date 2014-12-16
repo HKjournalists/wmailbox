@@ -6,11 +6,11 @@ import org.junit.Test;
 
 import com.google.common.base.Optional;
 
-import cn.com.jinwang.UtilBase.SecUtil;
 import cn.com.jinwang.domain.LocalUser;
 import cn.com.jinwang.domain.LocalUser.ActivityState;
 
 import cn.com.jinwang.repository.LocalUserJpaRepository;
+import cn.com.jinwang.utilbase.SecUtil;
 
 public class TestUserDao extends JpaTestBase {
 

@@ -1,4 +1,4 @@
-package cn.com.jinwang;
+package cn.com.jinwang.pages;
 
 import org.apache.wicket.markup.html.WebPage;
 

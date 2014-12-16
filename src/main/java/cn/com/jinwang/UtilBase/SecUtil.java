@@ -1,4 +1,4 @@
-package cn.com.jinwang.UtilBase;
+package cn.com.jinwang.utilbase;
 
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;

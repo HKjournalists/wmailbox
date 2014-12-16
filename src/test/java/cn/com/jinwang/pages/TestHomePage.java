@@ -1,10 +1,10 @@
-package cn.com.jinwang;
+package cn.com.jinwang.pages;
 
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
 
-import cn.com.jinwang.pages.HomePagePlain;
+import cn.com.jinwang.pages.BaseHomePage;
 import cn.com.jinwang.pages.WicketApplicationPlain;
 
 /**
@@ -21,9 +21,9 @@ public class TestHomePage {
   @Test
   public void homepageRendersSuccessfully() {
     // start and render the test page
-    tester.startPage(HomePagePlain.class);
+    tester.startPage(BaseHomePage.class);
 
     // assert rendered page class
-    tester.assertRenderedPage(HomePagePlain.class);
+    tester.assertRenderedPage(BaseHomePage.class);
   }
 }

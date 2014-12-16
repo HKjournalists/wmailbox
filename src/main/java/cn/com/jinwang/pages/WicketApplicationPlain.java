@@ -12,7 +12,7 @@ import org.wicketstuff.shiro.annotation.AnnotationsShiroAuthorizationStrategy;
  * Application object for your web application. If you want to run this application without
  * deploying, run the Start class.
  * 
- * @see cn.com.jinwang.Start#main(String[])
+ * @see cn.com.jinwang.pages.Start#main(String[])
  */
 public class WicketApplicationPlain extends WebApplication {
   /**

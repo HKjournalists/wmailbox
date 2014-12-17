@@ -14,7 +14,7 @@ import cn.com.jinwang.initializer.EntityManagerFactoryHolder;
 
 public abstract class JpaTestBase {
 
-  protected EntityManager em = EntityManagerFactoryHolder.init().createEntityManager();
+  protected EntityManager em = EntityManagerFactoryHolder.init("hsqldbfile").createEntityManager();
 
   private String callOrderIdenty = "sdioio3ii23233";
 

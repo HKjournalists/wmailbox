@@ -1,4 +1,4 @@
-package cn.com.jinwang.sql;
+package cn.com.jinwang.jpql;
 
 public class SortBy {
   private boolean asc;

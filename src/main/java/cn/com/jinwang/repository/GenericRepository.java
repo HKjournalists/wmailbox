@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.com.jinwang.domain.LocalUser;
-import cn.com.jinwang.sql.SortBy;
+import cn.com.jinwang.jpql.SortBy;
 
 import com.google.common.base.Optional;
 

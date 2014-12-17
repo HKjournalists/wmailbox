@@ -10,18 +10,20 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import cn.com.jinwang.domain.BaseDomain;
 import cn.com.jinwang.domain.BaseTreeDomain;
 import cn.com.jinwang.domain.LocalUser;
 import cn.com.jinwang.domain.UserGroup;
 import cn.com.jinwang.initializer.EntityManagerFactoryHolder;
-import cn.com.jinwang.sql.SortBy;
+import cn.com.jinwang.jpql.SortBy;
+import cn.com.jinwang.ptn.ModelSaverFilters;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 
-public abstract class GenericJpaRepository<T, ID> implements GenericRepository<T, Long> {
+public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements GenericRepository<T, Long> {
 
   // ~ Instance fields
   // --------------------------------------------------------
@@ -116,6 +118,7 @@ public abstract class GenericJpaRepository<T, ID> implements GenericRepository<T
 
   @Override
   public T save(T entity) {
+    ModelSaverFilters.filter(entity);
     EntityManager em = EntityManagerFactoryHolder.emf.createEntityManager();
     em.getTransaction().begin();
     em.persist(entity);
@@ -125,8 +128,13 @@ public abstract class GenericJpaRepository<T, ID> implements GenericRepository<T
 
   @Override
   public T update(T entity) {
-    EntityManagerFactoryHolder.emf.createEntityManager().merge(entity);
-    return entity;
+    ModelSaverFilters.filter(entity);
+    T attachedEntity;
+    EntityManager em = EntityManagerFactoryHolder.emf.createEntityManager();
+    em.getTransaction().begin();
+    attachedEntity = em.merge(entity);
+    em.getTransaction().commit();
+    return attachedEntity;
   }
 
   @Override

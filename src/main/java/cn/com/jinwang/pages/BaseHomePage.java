@@ -18,12 +18,18 @@ public class BaseHomePage extends WebPage {
 
   public BaseHomePage(final PageParameters parameters) {
     super(parameters);
-
+    
     add(new Link("goToSignInPage") {
-
       @Override
       public void onClick() {
         setResponsePage(SignInPage.class);
+      }
+    });
+    
+    add(new Link("goToOneFormPage") {
+      @Override
+      public void onClick() {
+        setResponsePage(OneFormPage.class);
       }
     });
     

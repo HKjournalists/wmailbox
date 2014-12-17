@@ -1,11 +1,25 @@
 package cn.com.jinwang.domain;
 
+import static javax.persistence.EnumType.STRING;
+import static javax.persistence.TemporalType.TIMESTAMP;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.PreUpdate;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.UniqueConstraint;
 
+import cn.com.jinwang.factory.RepositoryFactory;
 import cn.com.jinwang.interf.HasCreatedAt;
 import cn.com.jinwang.misc.SelectDataModel;
 
@@ -14,9 +28,6 @@ import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 
-import static javax.persistence.EnumType.STRING;
-import static javax.persistence.TemporalType.TIMESTAMP;
-
 /**
  * Entity implementation class for Entity: LocalUser alter table local_user add nickname
  * varchar(255) default null;
@@ -24,7 +35,7 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 @Entity
 @Table(name = "LOCAL_USER", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"}),
     @UniqueConstraint(columnNames = {"mobile"})})
-public class LocalUser extends BaseDomain implements HasCreatedAt {
+public class LocalUser extends BaseDomain<LocalUser> implements HasCreatedAt {
 
   private static final long serialVersionUID = 1L;
 
@@ -320,16 +331,7 @@ public class LocalUser extends BaseDomain implements HasCreatedAt {
   }
 
   public void save() {
-    // StaticEntityManagerHolder.getUserRepo().save(this);
-  }
-
-  public static Optional<LocalUser> find(long id) {
-    // return StaticEntityManagerHolder.getUserRepo().findById(id);
-    return null;
-  }
-
-  public static void delete(LocalUser user) {
-    // StaticEntityManagerHolder.getUserRepo().delete(user);
+    RepositoryFactory.getLocalUserRepository().save(this);
   }
 
   public Date getPwdUpdatedAt() {
@@ -404,4 +406,5 @@ public class LocalUser extends BaseDomain implements HasCreatedAt {
   public boolean hasRole(LocalRole role) {
     return getRoles().contains(role);
   }
+
 }

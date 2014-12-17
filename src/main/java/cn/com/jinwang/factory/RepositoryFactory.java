@@ -27,6 +27,4 @@ public class RepositoryFactory {
     return MixDomainPermissionJpaRepository.getInstance();
   }
 
-
-
 }

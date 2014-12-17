@@ -7,7 +7,7 @@ import javax.persistence.TypedQuery;
 import cn.com.jinwang.domain.LocalRole;
 import cn.com.jinwang.domain.LocalUser;
 import cn.com.jinwang.initializer.EntityManagerFactoryHolder;
-import cn.com.jinwang.sql.SortBy;
+import cn.com.jinwang.jpql.SortBy;
 
 import com.google.common.base.Optional;
 

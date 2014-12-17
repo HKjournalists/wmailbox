@@ -6,3 +6,6 @@ where TestCircle is the test class name and xyz is the test method,
 wild card characters also work (both in the method name and class name).
 
 mvnDebug jetty:run
+
+
+MAVEN_OPTS="-Xmx512m -XX:MaxPermSize=128m"

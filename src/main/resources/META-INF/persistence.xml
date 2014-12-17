@@ -13,8 +13,7 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
 
-	<persistence-unit name="wmailboxJpaUnit"
-		transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="hsqldbmem" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<class>cn.com.jinwang.domain.LocalUser</class>
 		<class>cn.com.jinwang.domain.LocalRole</class>
@@ -32,11 +31,37 @@
 			<!-- EclipseLink should create the database schema automatically -->
 
 			<property name="eclipselink.ddl-generation" value="create-tables" />
-			<!--  <property name="eclipselink.weaving" value="true"/> -->
+			<!-- <property name="eclipselink.weaving" value="true"/> -->
 			<property name="eclipselink.ddl-generation.output-mode"
 				value="database" />
 
 		</properties>
 	</persistence-unit>
+
+	<persistence-unit name="hsqldbfile" transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<class>cn.com.jinwang.domain.LocalUser</class>
+		<class>cn.com.jinwang.domain.LocalRole</class>
+		<class>cn.com.jinwang.domain.UserGroup</class>
+		<class>cn.com.jinwang.domain.MixDomainPermission</class>
+		<properties>
+
+			<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbc.JDBCDriver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:file:testdbfolder/testdb" />
+
+			<property name="javax.persistence.jdbc.user" value="SA" />
+			<property name="javax.persistence.jdbc.password" value="" />
+
+
+			<!-- EclipseLink should create the database schema automatically -->
+
+			<property name="eclipselink.ddl-generation" value="create-tables" />
+			<!-- <property name="eclipselink.weaving" value="true"/> -->
+			<property name="eclipselink.ddl-generation.output-mode"
+				value="database" />
+
+		</properties>
+	</persistence-unit>
+
 
 </persistence>

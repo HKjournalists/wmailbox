@@ -15,7 +15,7 @@ public class JwGuiceServletConfig extends GuiceServletContextListener {
   
   
   public static EntityManager getEntityManager() {
-    return getEntityManager();
+    return injector.getInstance(EntityManager.class);
   }
 
   @Override

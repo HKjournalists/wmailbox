@@ -8,7 +8,7 @@ import cn.com.jinwang.domain.LocalRole;
 import cn.com.jinwang.domain.LocalUser;
 import cn.com.jinwang.domain.MixDomainPermission;
 import cn.com.jinwang.domain.UserGroup;
-import cn.com.jinwang.initializer.EntityManagerFactoryHolder;
+import cn.com.jinwang.guice.JwGuiceServletConfig;
 import cn.com.jinwang.jpql.SortBy;
 
 import com.google.common.base.Optional;
@@ -113,7 +113,7 @@ public class UserGroupJpaRepository extends GenericJpaRepository<UserGroup, Long
   public List<UserGroup> hasThisPermission(MixDomainPermission mp) {
     String qs = "select u from UserGroup as u where :mp member of u.permissions";
     TypedQuery<UserGroup> tq =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, UserGroup.class);
+        JwGuiceServletConfig.getEntityManager().createQuery(qs, UserGroup.class);
     tq.setParameter("mp", mp);
     return tq.getResultList();
   }
@@ -124,7 +124,7 @@ public class UserGroupJpaRepository extends GenericJpaRepository<UserGroup, Long
       try {
         String qs = "select u from UserGroup as u where u.name = :name";
         TypedQuery<UserGroup> tq =
-            EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, UserGroup.class);
+            JwGuiceServletConfig.getEntityManager().createQuery(qs, UserGroup.class);
         tq.setParameter("name", nameOp.get());
         return Optional.of(tq.getSingleResult());
       } catch (Exception e) {
@@ -144,7 +144,7 @@ public class UserGroupJpaRepository extends GenericJpaRepository<UserGroup, Long
   public List<UserGroup> hasThisLocalRole(LocalRole localRole) {
     String qs = "select g from UserGroup as g where :localRole member of g.roles";
     TypedQuery<UserGroup> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, UserGroup.class);
+        JwGuiceServletConfig.getEntityManager().createQuery(qs, UserGroup.class);
     q.setParameter("localRole", localRole);
     return q.getResultList();
   }
@@ -153,7 +153,7 @@ public class UserGroupJpaRepository extends GenericJpaRepository<UserGroup, Long
   public Long countHasThisLocalRole(LocalRole localRole) {
     String qs = "select count(distinct g) from UserGroup as g where :localRole member of g.roles";
     TypedQuery<Long> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, Long.class);
+        JwGuiceServletConfig.getEntityManager().createQuery(qs, Long.class);
     q.setParameter("localRole", localRole);
     return q.getSingleResult();
   }
@@ -162,7 +162,7 @@ public class UserGroupJpaRepository extends GenericJpaRepository<UserGroup, Long
   public List<UserGroup> hasThisLocalRole(LocalRole localRole, int start, int end) {
     String qs = "select g from UserGroup as g where :localRole member of g.roles";
     TypedQuery<UserGroup> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, UserGroup.class);
+        JwGuiceServletConfig.getEntityManager().createQuery(qs, UserGroup.class);
     q.setParameter("localRole", localRole);
     q.setFirstResult(start);
     q.setMaxResults(end - start);

@@ -6,7 +6,7 @@ import javax.persistence.TypedQuery;
 
 import cn.com.jinwang.domain.LocalRole;
 import cn.com.jinwang.domain.LocalUser;
-import cn.com.jinwang.initializer.EntityManagerFactoryHolder;
+import cn.com.jinwang.guice.JwGuiceServletConfig;
 import cn.com.jinwang.jpql.SortBy;
 
 import com.google.common.base.Optional;
@@ -105,7 +105,7 @@ public class LocalRoleJpaRepository extends GenericJpaRepository<LocalRole, Long
       try {
         String qs = "select r from LocalRole as r where r.name = :name";
         TypedQuery<LocalRole> tq =
-            EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, LocalRole.class);
+            JwGuiceServletConfig.getEntityManager().createQuery(qs, LocalRole.class);
         tq.setParameter("name", nameOp.get());
         return Optional.of(tq.getSingleResult());
       } catch (Exception e) {

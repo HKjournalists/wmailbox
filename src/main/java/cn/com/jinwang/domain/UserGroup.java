@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
 
+import cn.com.jinwang.factory.RepositoryFactory;
 import cn.com.jinwang.interf.CanCopyProterties;
 import cn.com.jinwang.interf.HasCreatedAt;
 import cn.com.jinwang.interf.HasCreator;
@@ -37,7 +38,7 @@ import javax.persistence.JoinTable;
  */
 @Entity
 @Table(name = "USER_GROUP", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})})
-public class UserGroup extends BaseDomain
+public class UserGroup extends BaseDomain<UserGroup>
     implements
       HasCreatedAt,
       HasCreator,
@@ -146,8 +147,8 @@ public class UserGroup extends BaseDomain
     // StaticEntityManagerHolder.getUgRepo().delete(ug);
   }
 
-  public void save() {
-    // StaticEntityManagerHolder.getUgRepo().save(this);
+  public UserGroup save() {
+    return RepositoryFactory.getUserGroupRepository().save(this);
   }
 
   @Override
@@ -217,6 +218,11 @@ public class UserGroup extends BaseDomain
   @Override
   public boolean amIOwner(long userid) {
     return false;
+  }
+
+  @Override
+  public Optional<UserGroup> findById(long id) {
+    return RepositoryFactory.getUserGroupRepository().findById(id);
   }
 
 }

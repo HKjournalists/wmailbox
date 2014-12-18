@@ -17,12 +17,17 @@ public class JpaLoadableModel<T extends BaseDomain<T>> extends LoadableDetachabl
 
   private Long identifier;
 
+  @SuppressWarnings("unchecked")
   public JpaLoadableModel(T entity) {
     this.identifier = entity.getId();
-    this.entityClass = (Class<T>) entity.getClass();
+    this.entityClass = ((Class<T>) entity.getClass());
     setObject(entity);
   }
 
+  /**
+   * when create new entity,you will find no record from back end.
+   * so create one.
+   */
   @Override
   protected T load() {
     try {
@@ -30,7 +35,7 @@ public class JpaLoadableModel<T extends BaseDomain<T>> extends LoadableDetachabl
       if (entityOp.isPresent()) {
         return entityOp.get();
       } else {
-        return null;
+        return entityClass.newInstance();
       }
     } catch (InstantiationException e) {
       e.printStackTrace();

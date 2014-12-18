@@ -8,8 +8,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import cn.com.jinwang.factory.RepositoryFactory;
 import cn.com.jinwang.interf.HasCreatedAt;
 
+import com.google.common.base.Optional;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 
@@ -19,7 +21,7 @@ import com.google.gson.annotations.Expose;
  */
 @Entity
 @Table(name = "LOCAL_LOGIN_LOG")
-public class LocalLoginLog extends BaseDomain implements HasCreatedAt {
+public class LocalLoginLog extends BaseDomain<LocalLoginLog> implements HasCreatedAt {
 
 
   private static final long serialVersionUID = 1L;
@@ -113,7 +115,13 @@ public class LocalLoginLog extends BaseDomain implements HasCreatedAt {
   }
 
   @Override
-  public void save() {
+  public LocalLoginLog save() {
+    return RepositoryFactory.getLocalLoginLogRepository().save(this);
+  }
+
+  @Override
+  public Optional<LocalLoginLog> findById(long id) {
+    return null;
   }
 
 }

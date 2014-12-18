@@ -11,6 +11,11 @@ import org.apache.wicket.model.IModel;
 public class Section<T> extends GenericPanel<T> {
 
     /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
+    /**
      * Construct.
      *
      * @param id component id

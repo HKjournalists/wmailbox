@@ -18,7 +18,7 @@ public class DomainUtils {
     return false;
   }
 
-  public static String[] getPermissionString(BaseDomain bd, String... actions) {
+  public static <T extends BaseDomain<T>> String[] getPermissionString(T bd, String... actions) {
     String[] ps = new String[actions.length];
     for (int i = 0; i < ps.length; i++) {
       ps[i] = bd.getClass().getSimpleName() + ":" + actions[i] + ":" + bd.getId();
@@ -34,7 +34,7 @@ public class DomainUtils {
     return ps;
   }
 
-  public static <T extends BaseDomain> List<T> excludeIds(List<T> origin, String excludeIds) {
+  public static <T extends BaseDomain<T>> List<T> excludeIds(List<T> origin, String excludeIds) {
     List<T> result = Lists.newArrayList();
     String[] ss = excludeIds.split(",");
     for (T t : origin) {

@@ -5,7 +5,7 @@ import javax.persistence.MappedSuperclass;
 import com.google.gson.annotations.Expose;
 
 @MappedSuperclass
-public abstract class BaseTreeDomain extends BaseDomain {
+public abstract class BaseTreeDomain<T extends BaseTreeDomain<T>> extends BaseDomain<T> {
 
   /**
 	 * 

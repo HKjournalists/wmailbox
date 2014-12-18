@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
 
+import cn.com.jinwang.factory.RepositoryFactory;
 import cn.com.jinwang.interf.CanCopyProterties;
 import cn.com.jinwang.interf.HasCreatedAt;
 import cn.com.jinwang.interf.HasCreator;
@@ -32,7 +33,7 @@ import javax.persistence.Column;
  */
 @Entity
 @Table(name = "LOCAL_ROLE", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})})
-public class LocalRole extends BaseDomain
+public class LocalRole extends BaseDomain<LocalRole>
     implements
       HasCreatedAt,
       HasCreator,
@@ -109,22 +110,18 @@ public class LocalRole extends BaseDomain
     return toJsonObject();
   }
 
-  public void save() {
-    // StaticEntityManagerHolder.getRoleRepo().save(this);
+  public LocalRole save() {
+    return RepositoryFactory.getLocalRoleRepository().save(this);
   }
 
-  public static Optional<LocalRole> find(long id) {
-    // return StaticEntityManagerHolder.getRoleRepo().findById(id);
-    return null;
-  }
-
-  public static Optional<LocalRole> find(Optional<Long> idOp) {
-    // return StaticEntityManagerHolder.getRoleRepo().findById(idOp);
-    return null;
-  }
 
   @Override
   public void copyProperties(LocalRole clientBean, String putString) {
     setName(clientBean.getName());
+  }
+
+  @Override
+  public Optional<LocalRole> findById(long id) {
+    return RepositoryFactory.getLocalRoleRepository().findById(id);
   }
 }

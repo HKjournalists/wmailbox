@@ -9,12 +9,10 @@ import com.google.common.base.Optional;
 import cn.com.jinwang.domain.LocalUser;
 import cn.com.jinwang.domain.LocalUser.ActivityState;
 
-import cn.com.jinwang.repository.LocalUserJpaRepository;
 import cn.com.jinwang.utilbase.SecUtil;
 
 public class TestUserDao extends JpaTestBase {
 
-  private LocalUserJpaRepository luDao = LocalUserJpaRepository.getInstance();
   private String email = "jianglibo@gmail.com";
   private String mobile = "12345678901";
 
@@ -22,12 +20,6 @@ public class TestUserDao extends JpaTestBase {
   public void setup() {
     luDao.deleteAll();
   }
-
-  @Override
-  public void setupBeCalledInTransaction() {
-
-  }
-
 
   @Test
   public void testInsertUser() {

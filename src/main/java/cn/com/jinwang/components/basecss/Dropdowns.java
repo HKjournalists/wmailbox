@@ -11,6 +11,11 @@ import org.apache.wicket.markup.html.panel.Panel;
 public class Dropdowns extends Panel {
 
     /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
+    /**
      * Construct.
      *
      * @param markupId The wicket markup id.

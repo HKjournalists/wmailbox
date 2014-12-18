@@ -1,5 +1,7 @@
 package cn.com.jinwang.factory;
 
+import cn.com.jinwang.repository.LocalLoginLogJpaRepository;
+import cn.com.jinwang.repository.LocalLoginLogRepository;
 import cn.com.jinwang.repository.LocalRoleJpaRepository;
 import cn.com.jinwang.repository.LocalRoleRepository;
 import cn.com.jinwang.repository.LocalUserJpaRepository;
@@ -25,6 +27,10 @@ public class RepositoryFactory {
 
   public static MixDomainPermissionRepository getMixDomainPermissionRepository() {
     return MixDomainPermissionJpaRepository.getInstance();
+  }
+  
+  public static LocalLoginLogRepository getLocalLoginLogRepository() {
+    return LocalLoginLogJpaRepository.getInstance();
   }
 
 }

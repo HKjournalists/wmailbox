@@ -7,7 +7,7 @@ import javax.persistence.TypedQuery;
 import cn.com.jinwang.domain.LocalUser;
 import cn.com.jinwang.domain.MixDomainPermission;
 import cn.com.jinwang.domain.UserGroup;
-import cn.com.jinwang.initializer.EntityManagerFactoryHolder;
+import cn.com.jinwang.guice.JwGuiceServletConfig;
 import cn.com.jinwang.jpql.SortBy;
 
 import com.google.common.base.Optional;
@@ -59,7 +59,7 @@ public class MixDomainPermissionJpaRepository
     MixDomainPermission mp = null;
     try {
       q =
-          EntityManagerFactoryHolder.emf.createEntityManager().createNamedQuery(
+          JwGuiceServletConfig.getEntityManager().createNamedQuery(
               MixDomainPermission.NamedQueryNames.BY_ALL_FIELDS, MixDomainPermission.class);
       q.setParameter("simpleName", simpleName);
       q.setParameter("actions", actions);
@@ -121,7 +121,7 @@ public class MixDomainPermissionJpaRepository
       qs = qs + " and " + getWhereString(qstr);
     }
     TypedQuery<MixDomainPermission> tq =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs,
+        JwGuiceServletConfig.getEntityManager().createQuery(qs,
             MixDomainPermission.class);
     tq.setParameter("user", user);
     tq.setFirstResult(startRow);
@@ -137,7 +137,7 @@ public class MixDomainPermissionJpaRepository
       qs = qs + " and " + getWhereString(qstr);
     }
     TypedQuery<Long> tq =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, Long.class);
+        JwGuiceServletConfig.getEntityManager().createQuery(qs, Long.class);
     tq.setParameter("user", user);
     return tq.getSingleResult();
   }
@@ -148,7 +148,7 @@ public class MixDomainPermissionJpaRepository
     String qs =
         "select p from LocalUser as u, in(u.permissions) as p where u = :user and p.simpleName = :simpleName and p.targets = :target";
     TypedQuery<MixDomainPermission> tq =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs,
+        JwGuiceServletConfig.getEntityManager().createQuery(qs,
             MixDomainPermission.class);
     tq.setParameter("user", user);
     tq.setParameter("simpleName", simpleName);
@@ -160,7 +160,7 @@ public class MixDomainPermissionJpaRepository
   public List<MixDomainPermission> groupsPermissions(int startRow, int endRow, UserGroup group) {
     String qs = "select distinct p from UserGroup as g, in(g.permissions) as p where g = :group";
     TypedQuery<MixDomainPermission> tq =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs,
+        JwGuiceServletConfig.getEntityManager().createQuery(qs,
             MixDomainPermission.class);
     tq.setParameter("group", group);
     tq.setFirstResult(startRow);
@@ -173,7 +173,7 @@ public class MixDomainPermissionJpaRepository
     String qs =
         "select count(distinct p) from UserGroup as g, in(g.permissions) as p where g = :group";
     TypedQuery<Long> tq =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, Long.class);
+        JwGuiceServletConfig.getEntityManager().createQuery(qs, Long.class);
     tq.setParameter("group", group);
     return tq.getSingleResult();
   }
@@ -184,7 +184,7 @@ public class MixDomainPermissionJpaRepository
     String qs =
         "select p from UserGroup as g, in(g.permissions) as p where g = :group and p.simpleName = :simpleName and p.targets = :target";
     TypedQuery<MixDomainPermission> tq =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs,
+        JwGuiceServletConfig.getEntityManager().createQuery(qs,
             MixDomainPermission.class);
     tq.setParameter("group", group);
     tq.setParameter("simpleName", simpleName);

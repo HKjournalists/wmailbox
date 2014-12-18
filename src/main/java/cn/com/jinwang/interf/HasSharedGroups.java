@@ -9,5 +9,4 @@ public interface HasSharedGroups {
 
   public void setSharedGroups(Set<UserGroup> sharedGroups);
 
-  void save();
 }

@@ -1,13 +1,10 @@
 package cn.com.jinwang.pages;
 
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 
 import cn.com.jinwang.domain.LocalUser;
 import cn.com.jinwang.viewmodel.JpaLoadableModel;
@@ -50,8 +47,6 @@ public class OneFormPage extends WebPage {
    */
 
   public OneFormPage() {
-//    IModel<String> messageModel = Model.of("Hello World!");
-//    add(new Label("message", messageModel));
     add(new LocalUserForm("localuserform"));
   }
 
@@ -68,25 +63,11 @@ public class OneFormPage extends WebPage {
       add(new TextField<String>("email"));
       add(new TextField<String>("mobile"));
       add(new PasswordTextField("password"));
-      add(new Label("loginStatus"));
     }
 
     public final void onSubmit() {
-//      if (username.equals("test") && password.equals("test"))
-//        loginStatus = "Congratulations!";
-//      else
-//        loginStatus = "Wrong username or password !";
+      LocalUser lu = luModel.getObject();
+      lu.save();
     }
   }
-
-//  private final class MessageForm extends Form {
-//    public MessageForm(String id, IModel model) {
-//      super(id);
-//      add(new TextField("messageInput", model));
-//    }
-//
-//    protected void onSubmit() {
-//      // nothing to do here as the model is automatically updated
-//    }
-//  }
 }

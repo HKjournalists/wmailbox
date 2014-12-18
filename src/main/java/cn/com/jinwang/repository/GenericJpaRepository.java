@@ -11,10 +11,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import cn.com.jinwang.domain.BaseDomain;
-import cn.com.jinwang.domain.BaseTreeDomain;
 import cn.com.jinwang.domain.LocalUser;
 import cn.com.jinwang.domain.UserGroup;
-import cn.com.jinwang.initializer.EntityManagerFactoryHolder;
+import cn.com.jinwang.guice.JwGuiceServletConfig;
 import cn.com.jinwang.jpql.SortBy;
 import cn.com.jinwang.ptn.ModelSaverFilters;
 
@@ -23,7 +22,9 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 
-public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements GenericRepository<T, Long> {
+public abstract class GenericJpaRepository<T extends BaseDomain<T>, ID>
+    implements
+      GenericRepository<T, Long> {
 
   // ~ Instance fields
   // --------------------------------------------------------
@@ -58,15 +59,14 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
 
   @Override
   public Optional<T> findById(Long id) {
-    final T result = EntityManagerFactoryHolder.emf.createEntityManager().find(persistentClass, id);
+    final T result = JwGuiceServletConfig.getEntityManager().find(persistentClass, id);
     return Optional.fromNullable(result);
   }
 
   @Override
   public Optional<T> findById(Optional<Long> idOp) {
     if (idOp.isPresent()) {
-      final T result =
-          EntityManagerFactoryHolder.emf.createEntityManager().find(persistentClass, idOp.get());
+      final T result = JwGuiceServletConfig.getEntityManager().find(persistentClass, idOp.get());
       return Optional.fromNullable(result);
     } else {
       return Optional.absent();
@@ -75,11 +75,11 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
 
   @Override
   public List<T> findAll() {
-    CriteriaBuilder cb = EntityManagerFactoryHolder.emf.createEntityManager().getCriteriaBuilder();
+    CriteriaBuilder cb = JwGuiceServletConfig.getEntityManager().getCriteriaBuilder();
     CriteriaQuery<T> cq = cb.createQuery(this.persistentClass);
     Root<T> entities = cq.from(this.persistentClass);
     cq.select(entities);
-    TypedQuery<T> q = EntityManagerFactoryHolder.emf.createEntityManager().createQuery(cq);
+    TypedQuery<T> q = JwGuiceServletConfig.getEntityManager().createQuery(cq);
     return q.getResultList();
   }
 
@@ -105,8 +105,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     String cn = persistentClass.getSimpleName();
     String qs = "SELECT count(o) from %s as o";
     qs = String.format(qs, cn);
-    TypedQuery<Long> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, Long.class);
+    TypedQuery<Long> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, Long.class);
     return q.getSingleResult();
   }
 
@@ -119,7 +118,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
   @Override
   public T save(T entity) {
     ModelSaverFilters.filter(entity);
-    EntityManager em = EntityManagerFactoryHolder.emf.createEntityManager();
+    EntityManager em = JwGuiceServletConfig.getEntityManager();
     em.getTransaction().begin();
     em.persist(entity);
     em.getTransaction().commit();
@@ -130,7 +129,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
   public T update(T entity) {
     ModelSaverFilters.filter(entity);
     T attachedEntity;
-    EntityManager em = EntityManagerFactoryHolder.emf.createEntityManager();
+    EntityManager em = JwGuiceServletConfig.getEntityManager();
     em.getTransaction().begin();
     attachedEntity = em.merge(entity);
     em.getTransaction().commit();
@@ -139,7 +138,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
 
   @Override
   public void delete(T entity) {
-    EntityManager em = EntityManagerFactoryHolder.emf.createEntityManager();
+    EntityManager em = JwGuiceServletConfig.getEntityManager();
     em.getTransaction().begin();
     em.remove(entity);
     em.getTransaction().commit();
@@ -147,7 +146,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
 
   @Override
   public void deleteById(Long id) {
-    EntityManager em = EntityManagerFactoryHolder.emf.createEntityManager();
+    EntityManager em = JwGuiceServletConfig.getEntityManager();
     T entity = em.find(getEntityClass(), id);
     delete(entity);
   }
@@ -198,8 +197,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     String qs = "SELECT p from " + getEntityClass().getSimpleName() + " as p order by p.%s %s";
     SortBy sb = getSortByOrDefault(sortBy);
     qs = String.format(qs, sb.getField(), sb.getDirection());
-    TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, getEntityClass());
+    TypedQuery<T> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, getEntityClass());
     q.setFirstResult(startRow);
     q.setMaxResults(endRow - startRow);
     return q.getResultList();
@@ -210,8 +208,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     String qs =
         "SELECT p from " + getEntityClass().getSimpleName()
             + " as p where p.parent is NULL order by p." + sb.getField() + " " + sb.getDirection();
-    TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, getEntityClass());
+    TypedQuery<T> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, getEntityClass());
     q.setFirstResult(startRow);
     q.setMaxResults(endRow - startRow);
     return q.getResultList();
@@ -221,8 +218,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     String qs =
         "SELECT count(distinct p) from " + getEntityClass().getSimpleName()
             + " as p where p.parent is NULL";
-    TypedQuery<Long> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, Long.class);
+    TypedQuery<Long> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, Long.class);
     return q.getSingleResult();
   }
 
@@ -232,8 +228,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
         "SELECT p from " + getEntityClass().getSimpleName()
             + " as p where p.parent is NULL and p.creator = :creator order by p." + sb.getField()
             + " " + sb.getDirection();
-    TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, getEntityClass());
+    TypedQuery<T> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, getEntityClass());
     q.setParameter("creator", user);
     q.setFirstResult(startRow);
     q.setMaxResults(endRow - startRow);
@@ -246,8 +241,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
         "SELECT p from " + getEntityClass().getSimpleName()
             + " as p where p.parent is NULL and :user member of p.sharedUsers order by p."
             + sb.getField() + " " + sb.getDirection();
-    TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, getEntityClass());
+    TypedQuery<T> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, getEntityClass());
     q.setParameter("user", user);
     q.setFirstResult(startRow);
     q.setMaxResults(endRow - startRow);
@@ -258,8 +252,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     String qs =
         "SELECT count(distinct p) from " + getEntityClass().getSimpleName()
             + " as p where p.parent is NULL and p.creator = :creator";
-    TypedQuery<Long> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, Long.class);
+    TypedQuery<Long> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, Long.class);
     q.setParameter("creator", user);
     return q.getSingleResult();
   }
@@ -268,8 +261,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     String qs =
         "SELECT count(distinct p) from " + getEntityClass().getSimpleName()
             + " as p where p.parent is NULL and :user member of p.sharedUsers";
-    TypedQuery<Long> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, Long.class);
+    TypedQuery<Long> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, Long.class);
     q.setParameter("user", user);
     return q.getSingleResult();
   }
@@ -280,8 +272,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
         "SELECT p from " + getEntityClass().getSimpleName()
             + " as p where p.creator = :creator order by p." + sb.getField() + " "
             + sb.getDirection();
-    TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, getEntityClass());
+    TypedQuery<T> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, getEntityClass());
     q.setParameter("creator", user);
     q.setFirstResult(startRow);
     q.setMaxResults(endRow - startRow);
@@ -292,8 +283,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     String qs =
         "SELECT p from " + getEntityClass().getSimpleName()
             + " as p where p.creator = :creator order by p.createdAt DESC";
-    TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, getEntityClass());
+    TypedQuery<T> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, getEntityClass());
     q.setParameter("creator", user);
     return q.getResultList();
   }
@@ -304,8 +294,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
         "SELECT p from " + getEntityClass().getSimpleName()
             + " as p where :user member of p.sharedUsers order by p." + sb.getField() + " "
             + sb.getDirection();
-    TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, getEntityClass());
+    TypedQuery<T> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, getEntityClass());
     q.setParameter("user", user);
     q.setFirstResult(startRow);
     q.setMaxResults(endRow - startRow);
@@ -316,8 +305,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     String qs =
         "SELECT p from " + getEntityClass().getSimpleName()
             + " as p where :user member of p.sharedUsers";
-    TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, getEntityClass());
+    TypedQuery<T> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, getEntityClass());
     q.setParameter("user", user);
     return q.getResultList();
   }
@@ -331,15 +319,14 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     String qs =
         "SELECT p from " + getEntityClass().getSimpleName()
             + " as p,in(p.sharedGroups) g where g.id in :ids";
-    TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, getEntityClass());
+    TypedQuery<T> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, getEntityClass());
     q.setParameter("ids", ids);
     return q.getResultList();
   }
 
   public List<T> descendant(String ascendantId) {
     TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(
+        JwGuiceServletConfig.getEntityManager().createQuery(
             "SELECT distinct v from " + getEntityClass().getSimpleName()
                 + " as v where v.parentIds like :parentIds order by v.parentIds asc",
             getEntityClass());
@@ -353,8 +340,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     String qs =
         "SELECT count(distinct p) from " + getEntityClass().getSimpleName()
             + " as p where p.creator = :creator";
-    TypedQuery<Long> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, Long.class);
+    TypedQuery<Long> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, Long.class);
     q.setParameter("creator", user);
     return q.getSingleResult();
   }
@@ -362,8 +348,8 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
   @Override
   public long countAllMineAndOthers(LocalUser user) {
     Query query =
-        EntityManagerFactoryHolder.emf
-            .createEntityManager()
+        JwGuiceServletConfig
+            .getEntityManager()
             .createNativeQuery(
                 "SELECT COUNT(DISTINCT(t0.id)) FROM WEB_SITE t0, WEB_SITE_LOCAL_USER t2, LOCAL_USER t1 WHERE (((t0.creator_id = ?)) OR ((t2.WebSite_id = t0.id) AND ((t1.id = t2.sharedUsers_id) AND t1.id = ?)))");
     query.setParameter(1, user.getId());
@@ -376,8 +362,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     String qs =
         "SELECT count(distinct p) from " + getEntityClass().getSimpleName()
             + " as p where :user member of p.sharedUsers";
-    TypedQuery<Long> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, Long.class);
+    TypedQuery<Long> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, Long.class);
     q.setParameter("user", user);
     return q.getSingleResult();
   }
@@ -388,8 +373,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
         "SELECT p from " + getEntityClass().getSimpleName()
             + " as p where p.parent = :parent order by p." + sb.getField() + " "
             + sb.getDirection();
-    TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, getEntityClass());
+    TypedQuery<T> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, getEntityClass());
     q.setParameter("parent", parent);
     q.setFirstResult(startRow);
     q.setMaxResults(endRow - startRow);
@@ -400,8 +384,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     String qs =
         "SELECT count(distinct p) from " + getEntityClass().getSimpleName()
             + " as p where p.parent = :parent";
-    TypedQuery<Long> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, Long.class);
+    TypedQuery<Long> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, Long.class);
     q.setParameter("parent", parent);
     return q.getSingleResult();
   }
@@ -418,8 +401,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     sbd.append(" ");
     sbd.append(sb.getDirection());
     TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(sbd.toString(),
-            getEntityClass());
+        JwGuiceServletConfig.getEntityManager().createQuery(sbd.toString(), getEntityClass());
     q.setFirstResult(startRow);
     q.setMaxResults(endRow - startRow);
     return q.getResultList();
@@ -431,8 +413,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     sbd.append(" as p where ");
     sbd.append(whereLikeString);
     TypedQuery<Long> q =
-        EntityManagerFactoryHolder.emf.createEntityManager()
-            .createQuery(sbd.toString(), Long.class);
+        JwGuiceServletConfig.getEntityManager().createQuery(sbd.toString(), Long.class);
     return q.getSingleResult();
   }
 
@@ -448,8 +429,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     sbd.append(" ");
     sbd.append(sb.getDirection());
     TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(sbd.toString(),
-            getEntityClass());
+        JwGuiceServletConfig.getEntityManager().createQuery(sbd.toString(), getEntityClass());
     q.setParameter("creator", user);
     q.setFirstResult(startRow);
     q.setMaxResults(endRow - startRow);
@@ -462,8 +442,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     sbd.append(" as p where p.creator = :creator and ");
     sbd.append(whereLikeString);
     TypedQuery<Long> q =
-        EntityManagerFactoryHolder.emf.createEntityManager()
-            .createQuery(sbd.toString(), Long.class);
+        JwGuiceServletConfig.getEntityManager().createQuery(sbd.toString(), Long.class);
     q.setParameter("creator", user);
     return q.getSingleResult();
   }
@@ -480,8 +459,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     sbd.append(" ");
     sbd.append(sb.getDirection());
     TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(sbd.toString(),
-            getEntityClass());
+        JwGuiceServletConfig.getEntityManager().createQuery(sbd.toString(), getEntityClass());
     q.setParameter("user", user);
     q.setFirstResult(startRow);
     q.setMaxResults(endRow - startRow);
@@ -494,8 +472,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     sbd.append(" as p where :user member of p.sharedUsers and ");
     sbd.append(whereLikeString);
     TypedQuery<Long> q =
-        EntityManagerFactoryHolder.emf.createEntityManager()
-            .createQuery(sbd.toString(), Long.class);
+        JwGuiceServletConfig.getEntityManager().createQuery(sbd.toString(), Long.class);
     q.setParameter("user", user);
     return q.getSingleResult();
   }
@@ -510,8 +487,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
       sb.append(" = :");
       sb.append(fieldName);
       TypedQuery<T> q =
-          EntityManagerFactoryHolder.emf.createEntityManager().createQuery(sb.toString(),
-              getEntityClass());
+          JwGuiceServletConfig.getEntityManager().createQuery(sb.toString(), getEntityClass());
       q.setParameter(fieldName, fieldValue);
       T r = q.getSingleResult();
       if (r != null) return Optional.of(r);
@@ -528,8 +504,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     sb.append(" = :");
     sb.append(fieldName);
     TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(sb.toString(),
-            getEntityClass());
+        JwGuiceServletConfig.getEntityManager().createQuery(sb.toString(), getEntityClass());
     q.setParameter(fieldName, fieldValue);
     return q.getResultList();
   }
@@ -543,8 +518,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     sb.append(" like :");
     sb.append(fieldName);
     TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(sb.toString(),
-            getEntityClass());
+        JwGuiceServletConfig.getEntityManager().createQuery(sb.toString(), getEntityClass());
     q.setParameter(fieldName, fieldValue);
     return q.getResultList();
   }
@@ -558,8 +532,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     sb.append(" = :");
     sb.append(fieldName);
     TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(sb.toString(),
-            getEntityClass());
+        JwGuiceServletConfig.getEntityManager().createQuery(sb.toString(), getEntityClass());
     q.setParameter(fieldName, fieldValue);
     return q.getResultList();
   }
@@ -578,8 +551,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
   public List<T> findByIds(List<Long> longs) {
     if (longs.size() == 0) return Lists.newArrayList();
     String qs = "SELECT p from " + getEntityClass().getSimpleName() + " as p where p.id in :ids";
-    TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, getEntityClass());
+    TypedQuery<T> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, getEntityClass());
     q.setParameter("ids", longs);
     return q.getResultList();
   }
@@ -588,26 +560,12 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
     return findByIds(Lists.newArrayList(longs));
   }
 
-  public List<T> breadcrumb(Long domainId) {
-    T d = findById(domainId).get();
-    String parentIds = ((BaseTreeDomain) d).getParentIds();
-    return findByIds(parentIds);
-  }
-
-  public List<T> breadcrumb(Optional<Long> domainId) {
-    if (domainId.isPresent()) {
-      return breadcrumb(domainId.get());
-    }
-    return Lists.newArrayList();
-  }
-
   @Override
   public List<T> amIInSharedUsers(LocalUser user) {
     String qs =
         "SELECT w from " + getEntityClass().getSimpleName()
             + " as w where :user member of w.sharedUsers";
-    TypedQuery<T> q =
-        EntityManagerFactoryHolder.emf.createEntityManager().createQuery(qs, getEntityClass());
+    TypedQuery<T> q = JwGuiceServletConfig.getEntityManager().createQuery(qs, getEntityClass());
     q.setParameter("user", user);
     return q.getResultList();
   }
@@ -675,7 +633,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain, ID> implements 
   @Override
   public void deleteAll() {
     String jql = String.format("DELETE FROM %s AS m", persistentClass.getSimpleName());
-    EntityManager em = EntityManagerFactoryHolder.emf.createEntityManager();
+    EntityManager em = JwGuiceServletConfig.getEntityManager();
     em.getTransaction().begin();
     em.createQuery(jql).executeUpdate();
     em.getTransaction().commit();

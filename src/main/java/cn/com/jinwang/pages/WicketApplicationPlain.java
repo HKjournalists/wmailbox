@@ -16,7 +16,6 @@ import org.wicketstuff.shiro.annotation.AnnotationsShiroAuthorizationStrategy;
 
 import cn.com.jinwang.domain.LocalUser;
 import cn.com.jinwang.factory.RepositoryFactory;
-import cn.com.jinwang.initializer.EntityManagerFactoryHolder;
 import cn.com.jinwang.utilbase.RandomUserGenerator;
 
 /**
@@ -54,7 +53,7 @@ public class WicketApplicationPlain extends WebApplication {
       throw new WicketRuntimeException("jpa unit not configed in config.properties");
     }
 
-    EntityManagerFactoryHolder.init(unitName);
+//    EntityManagerFactoryHolder.init(unitName);
 
     createSampleData();
 

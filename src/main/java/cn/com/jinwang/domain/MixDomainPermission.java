@@ -7,6 +7,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.apache.shiro.authz.permission.WildcardPermission;
 
+import cn.com.jinwang.factory.RepositoryFactory;
 import cn.com.jinwang.interf.CanCopyProterties;
 
 import com.google.common.base.Optional;
@@ -21,7 +22,7 @@ import com.google.gson.annotations.Expose;
 @Entity
 @Table(name = "MIX_DOMAIN_PERMISSION", uniqueConstraints = @UniqueConstraint(columnNames = {
     "simpleName", "actions", "targets"}))
-public class MixDomainPermission extends BaseDomain
+public class MixDomainPermission extends BaseDomain<MixDomainPermission>
     implements
       CanCopyProterties<MixDomainPermission> {
 
@@ -121,12 +122,18 @@ public class MixDomainPermission extends BaseDomain
     // StaticEntityManagerHolder.getMpRepo().delete(mp);
   }
 
-  public void save() {
-    // StaticEntityManagerHolder.getMpRepo().save(this);
+  public MixDomainPermission save() {
+    return RepositoryFactory.getMixDomainPermissionRepository().save(this);
   }
 
   @Override
   public void copyProperties(MixDomainPermission clientBean, String putString) {}
+
+  @Override
+  public Optional<MixDomainPermission> findById(long id) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
   //
   // //copy from org.apache.shiro.authz.permission.WildcardPermission

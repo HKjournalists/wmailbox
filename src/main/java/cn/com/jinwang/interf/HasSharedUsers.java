@@ -9,6 +9,5 @@ public interface HasSharedUsers {
 
   public void setSharedUsers(Set<LocalUser> sharedUsers);
 
-  public void save();
 
 }

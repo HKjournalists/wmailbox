@@ -330,8 +330,8 @@ public class LocalUser extends BaseDomain<LocalUser> implements HasCreatedAt {
     this.readedBc = readedBc;
   }
 
-  public void save() {
-    RepositoryFactory.getLocalUserRepository().save(this);
+  public LocalUser save() {
+    return RepositoryFactory.getLocalUserRepository().save(this);
   }
 
   public Date getPwdUpdatedAt() {
@@ -405,6 +405,11 @@ public class LocalUser extends BaseDomain<LocalUser> implements HasCreatedAt {
 
   public boolean hasRole(LocalRole role) {
     return getRoles().contains(role);
+  }
+
+  @Override
+  public Optional<LocalUser> findById(long id) {
+    return RepositoryFactory.getLocalUserRepository().findById(id);
   }
 
 }

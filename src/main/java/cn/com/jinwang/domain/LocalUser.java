@@ -18,8 +18,10 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import cn.com.jinwang.factory.RepositoryFactory;
+import cn.com.jinwang.factory.RepositoryFactoryHolder;
 import cn.com.jinwang.interf.HasCreatedAt;
 import cn.com.jinwang.misc.SelectDataModel;
 
@@ -48,6 +50,8 @@ public class LocalUser extends BaseDomain<LocalUser> implements HasCreatedAt {
 
   @Expose(serialize = false)
   @Column(nullable = false)
+  @NotNull
+  @Size(min = 8, max = 32)
   private String password;
 
   @Expose
@@ -83,6 +87,7 @@ public class LocalUser extends BaseDomain<LocalUser> implements HasCreatedAt {
 
   @Expose
   @Column(unique = true)
+  @NotNull
   private String email;
 
   @Expose
@@ -102,6 +107,7 @@ public class LocalUser extends BaseDomain<LocalUser> implements HasCreatedAt {
   private Date lockOutAt = new Date();
 
   private String readedBc;
+
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "LOCAL_USER_LOCAL_ROLE", joinColumns = @JoinColumn(name = "LOCAL_USER_ID", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "id"))
@@ -331,7 +337,7 @@ public class LocalUser extends BaseDomain<LocalUser> implements HasCreatedAt {
   }
 
   public LocalUser save() {
-    return RepositoryFactory.getLocalUserRepository().save(this);
+    return RepositoryFactoryHolder.getLocalUserRepository().save(this);
   }
 
   public Date getPwdUpdatedAt() {
@@ -409,7 +415,7 @@ public class LocalUser extends BaseDomain<LocalUser> implements HasCreatedAt {
 
   @Override
   public Optional<LocalUser> findById(long id) {
-    return RepositoryFactory.getLocalUserRepository().findById(id);
+    return RepositoryFactoryHolder.getLocalUserRepository().findById(id);
   }
 
 }

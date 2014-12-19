@@ -12,18 +12,14 @@ import cn.com.jinwang.guice.JwGuiceServletConfig;
 import cn.com.jinwang.jpql.SortBy;
 
 import com.google.common.base.Optional;
+import com.google.inject.Singleton;
 
+@Singleton
 public class UserGroupJpaRepository extends GenericJpaRepository<UserGroup, Long>
     implements
       UserGroupRepository {
 
-  private static final UserGroupJpaRepository INSTANCE = new UserGroupJpaRepository();
-
-  public static UserGroupJpaRepository getInstance() {
-    return INSTANCE;
-  }
-
-  private UserGroupJpaRepository() {
+  public UserGroupJpaRepository() {
     super(UserGroup.class);
   }
 

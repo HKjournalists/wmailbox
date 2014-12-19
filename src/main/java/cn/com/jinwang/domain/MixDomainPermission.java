@@ -7,7 +7,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.apache.shiro.authz.permission.WildcardPermission;
 
-import cn.com.jinwang.factory.RepositoryFactory;
+import cn.com.jinwang.factory.RepositoryFactoryHolder;
 import cn.com.jinwang.interf.CanCopyProterties;
 
 import com.google.common.base.Optional;
@@ -123,7 +123,7 @@ public class MixDomainPermission extends BaseDomain<MixDomainPermission>
   }
 
   public MixDomainPermission save() {
-    return RepositoryFactory.getMixDomainPermissionRepository().save(this);
+    return RepositoryFactoryHolder.getMixDomainPermissionRepository().save(this);
   }
 
   @Override

@@ -8,7 +8,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import cn.com.jinwang.factory.RepositoryFactory;
+import cn.com.jinwang.factory.RepositoryFactoryHolder;
 import cn.com.jinwang.interf.HasCreatedAt;
 
 import com.google.common.base.Optional;
@@ -116,7 +116,7 @@ public class LocalLoginLog extends BaseDomain<LocalLoginLog> implements HasCreat
 
   @Override
   public LocalLoginLog save() {
-    return RepositoryFactory.getLocalLoginLogRepository().save(this);
+    return RepositoryFactoryHolder.getLocalLoginLogRepository().save(this);
   }
 
   @Override

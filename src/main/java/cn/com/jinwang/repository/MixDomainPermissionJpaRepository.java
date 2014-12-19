@@ -11,20 +11,15 @@ import cn.com.jinwang.guice.JwGuiceServletConfig;
 import cn.com.jinwang.jpql.SortBy;
 
 import com.google.common.base.Optional;
+import com.google.inject.Singleton;
 
+@Singleton
 public class MixDomainPermissionJpaRepository
     extends GenericJpaRepository<MixDomainPermission, Long>
     implements
       MixDomainPermissionRepository {
 
-  private static final MixDomainPermissionJpaRepository INSTANCE =
-      new MixDomainPermissionJpaRepository();
-
-  public static MixDomainPermissionJpaRepository getInstance() {
-    return INSTANCE;
-  }
-
-  private MixDomainPermissionJpaRepository() {
+  public MixDomainPermissionJpaRepository() {
     super(MixDomainPermission.class);
   }
 

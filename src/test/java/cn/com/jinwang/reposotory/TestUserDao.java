@@ -31,6 +31,6 @@ public class TestUserDao extends JpaTestBase {
 
     Optional<LocalUser> luInStore = luDao.findByEmail(email);
 
-    Assert.assertTrue(luInStore.isPresent());
+    Assert.assertTrue( "user must in db.", luInStore.isPresent());
   }
 }

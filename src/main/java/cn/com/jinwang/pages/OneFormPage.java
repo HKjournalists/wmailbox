@@ -1,8 +1,10 @@
 package cn.com.jinwang.pages;
 
+import org.apache.wicket.bean.validation.PropertyValidator;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.model.CompoundPropertyModel;
 
@@ -59,10 +61,12 @@ public class OneFormPage extends WebPage {
       super(id);
       setDefaultModel(new CompoundPropertyModel<JpaLoadableModel<LocalUser>>(luModel));
 
-      add(new TextField<String>("nickname"));
-      add(new TextField<String>("email"));
-      add(new TextField<String>("mobile"));
-      add(new PasswordTextField("password"));
+      add(new TextField<String>("nickname").add(new PropertyValidator<String>()));
+      add(new TextField<String>("email").add(new PropertyValidator<String>()));
+      add(new TextField<String>("mobile").add(new PropertyValidator<String>()));
+      add(new PasswordTextField("password").add(new PropertyValidator<String>()));
+      
+      add(new FeedbackPanel("feedback"));
     }
 
     public final void onSubmit() {

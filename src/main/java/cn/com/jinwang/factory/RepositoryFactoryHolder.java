@@ -1,36 +1,32 @@
 package cn.com.jinwang.factory;
 
-import cn.com.jinwang.repository.LocalLoginLogJpaRepository;
+import cn.com.jinwang.guice.JwGuiceServletConfig;
 import cn.com.jinwang.repository.LocalLoginLogRepository;
-import cn.com.jinwang.repository.LocalRoleJpaRepository;
 import cn.com.jinwang.repository.LocalRoleRepository;
-import cn.com.jinwang.repository.LocalUserJpaRepository;
 import cn.com.jinwang.repository.LocalUserRepository;
-import cn.com.jinwang.repository.MixDomainPermissionJpaRepository;
 import cn.com.jinwang.repository.MixDomainPermissionRepository;
-import cn.com.jinwang.repository.UserGroupJpaRepository;
 import cn.com.jinwang.repository.UserGroupRepository;
 
-public class RepositoryFactory {
+public class RepositoryFactoryHolder {
 
   public static LocalUserRepository getLocalUserRepository() {
-    return LocalUserJpaRepository.getInstance();
+    return JwGuiceServletConfig.injector.getInstance(LocalUserRepository.class);
   }
 
   public static UserGroupRepository getUserGroupRepository() {
-    return UserGroupJpaRepository.getInstance();
+    return JwGuiceServletConfig.injector.getInstance(UserGroupRepository.class);
   }
 
   public static LocalRoleRepository getLocalRoleRepository() {
-    return LocalRoleJpaRepository.getInstance();
+    return JwGuiceServletConfig.injector.getInstance(LocalRoleRepository.class);
   }
 
   public static MixDomainPermissionRepository getMixDomainPermissionRepository() {
-    return MixDomainPermissionJpaRepository.getInstance();
+    return JwGuiceServletConfig.injector.getInstance(MixDomainPermissionRepository.class);
   }
   
   public static LocalLoginLogRepository getLocalLoginLogRepository() {
-    return LocalLoginLogJpaRepository.getInstance();
+    return JwGuiceServletConfig.injector.getInstance(LocalLoginLogRepository.class);
   }
 
 }

@@ -1,0 +1,3 @@
+D:\Documents\GitHub\wmailbox>java -cp D:/mavenrepo/repository/org/hsqldb/hsqldb/2.3.2/hsqldb-2.3.2.jar org.hsqldb.util.DatabaseManagerSwing
+
+version 2.32

@@ -10,18 +10,14 @@ import cn.com.jinwang.guice.JwGuiceServletConfig;
 import cn.com.jinwang.jpql.SortBy;
 
 import com.google.common.base.Optional;
+import com.google.inject.Singleton;
 
+@Singleton
 public class LocalRoleJpaRepository extends GenericJpaRepository<LocalRole, Long>
     implements
       LocalRoleRepository {
 
-  private static final LocalRoleJpaRepository INSTANCE = new LocalRoleJpaRepository();
-
-  public static LocalRoleJpaRepository getInstance() {
-    return INSTANCE;
-  }
-
-  private LocalRoleJpaRepository() {
+  public LocalRoleJpaRepository() {
     super(LocalRole.class);
   }
 

@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
 
-import cn.com.jinwang.factory.RepositoryFactory;
+import cn.com.jinwang.factory.RepositoryFactoryHolder;
 import cn.com.jinwang.interf.CanCopyProterties;
 import cn.com.jinwang.interf.HasCreatedAt;
 import cn.com.jinwang.interf.HasCreator;
@@ -148,7 +148,7 @@ public class UserGroup extends BaseDomain<UserGroup>
   }
 
   public UserGroup save() {
-    return RepositoryFactory.getUserGroupRepository().save(this);
+    return RepositoryFactoryHolder.getUserGroupRepository().save(this);
   }
 
   @Override
@@ -222,7 +222,7 @@ public class UserGroup extends BaseDomain<UserGroup>
 
   @Override
   public Optional<UserGroup> findById(long id) {
-    return RepositoryFactory.getUserGroupRepository().findById(id);
+    return RepositoryFactoryHolder.getUserGroupRepository().findById(id);
   }
 
 }

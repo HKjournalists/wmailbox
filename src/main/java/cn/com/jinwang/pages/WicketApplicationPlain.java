@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import org.apache.wicket.ResourceBundles;
 import org.apache.wicket.WicketRuntimeException;
+import org.apache.wicket.bean.validation.BeanValidationConfiguration;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.filter.JavaScriptFilteredIntoFooterHeaderResponse;
 import org.apache.wicket.markup.html.IHeaderResponseDecorator;
@@ -15,7 +16,7 @@ import org.apache.wicket.util.io.IOUtils;
 import org.wicketstuff.shiro.annotation.AnnotationsShiroAuthorizationStrategy;
 
 import cn.com.jinwang.domain.LocalUser;
-import cn.com.jinwang.factory.RepositoryFactory;
+import cn.com.jinwang.factory.RepositoryFactoryHolder;
 import cn.com.jinwang.utilbase.RandomUserGenerator;
 
 /**
@@ -45,13 +46,13 @@ public class WicketApplicationPlain extends WebApplication {
   public void init() {
     super.init();
     getMarkupSettings().setStripWicketTags(true);
-
+    new BeanValidationConfiguration().configure(this);
     properties = loadProperties();
-    String unitName = properties.getProperty("jpa.unit");
+//    String unitName = properties.getProperty("jpa.unit");
 
-    if (unitName == null || unitName.isEmpty()) {
-      throw new WicketRuntimeException("jpa unit not configed in config.properties");
-    }
+//    if (unitName == null || unitName.isEmpty()) {
+//      throw new WicketRuntimeException("jpa unit not configed in config.properties");
+//    }
 
 //    EntityManagerFactoryHolder.init(unitName);
 
@@ -83,10 +84,10 @@ public class WicketApplicationPlain extends WebApplication {
     if (sampleCfg == null || sampleCfg.isEmpty()) {
       ;
     } else {
-      long usernum = RepositoryFactory.getLocalUserRepository().countAll();
+      long usernum = RepositoryFactoryHolder.getLocalUserRepository().countAll();
       if (usernum < 1) {
         for (LocalUser lu : RandomUserGenerator.randomUsers(50)) {
-          RepositoryFactory.getLocalUserRepository().save(lu);
+          RepositoryFactoryHolder.getLocalUserRepository().save(lu);
         }
       }
     }

@@ -6,18 +6,14 @@ import cn.com.jinwang.domain.LocalLoginLog;
 import cn.com.jinwang.jpql.SortBy;
 
 import com.google.common.base.Optional;
+import com.google.inject.Singleton;
 
+@Singleton
 public class LocalLoginLogJpaRepository extends GenericJpaRepository<LocalLoginLog, Long>
     implements
     LocalLoginLogRepository {
 
-  private static final LocalLoginLogJpaRepository INSTANCE = new LocalLoginLogJpaRepository();
-
-  public static LocalLoginLogJpaRepository getInstance() {
-    return INSTANCE;
-  }
-
-  private LocalLoginLogJpaRepository() {
+  public LocalLoginLogJpaRepository() {
     super(LocalLoginLog.class);
   }
 

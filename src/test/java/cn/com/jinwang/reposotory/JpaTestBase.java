@@ -11,8 +11,9 @@ import org.junit.Test;
 
 import cn.com.jinwang.domain.LocalUser;
 import cn.com.jinwang.domain.LocalUser.ActivityState;
+import cn.com.jinwang.factory.RepositoryFactoryHolder;
 import cn.com.jinwang.guice.JwGuiceServletConfig;
-import cn.com.jinwang.repository.LocalUserJpaRepository;
+import cn.com.jinwang.repository.LocalUserRepository;
 import cn.com.jinwang.utilbase.RandomStringGenerator;
 import cn.com.jinwang.utilbase.SecUtil;
 
@@ -24,7 +25,7 @@ public abstract class JpaTestBase {
 
   protected static Injector injector;
 
-  protected LocalUserJpaRepository luDao = LocalUserJpaRepository.getInstance();
+  protected LocalUserRepository luDao;
 
   private String callOrderIdenty = "sdioio3ii23233";
 
@@ -42,6 +43,7 @@ public abstract class JpaTestBase {
 
   @Before
   public void jpaSetup() {
+    luDao = RepositoryFactoryHolder.getLocalUserRepository();
     callOrder.add(callOrderIdenty);
   }
 

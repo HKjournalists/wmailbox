@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
 
-import cn.com.jinwang.factory.RepositoryFactory;
+import cn.com.jinwang.factory.RepositoryFactoryHolder;
 import cn.com.jinwang.interf.CanCopyProterties;
 import cn.com.jinwang.interf.HasCreatedAt;
 import cn.com.jinwang.interf.HasCreator;
@@ -111,7 +111,7 @@ public class LocalRole extends BaseDomain<LocalRole>
   }
 
   public LocalRole save() {
-    return RepositoryFactory.getLocalRoleRepository().save(this);
+    return RepositoryFactoryHolder.getLocalRoleRepository().save(this);
   }
 
 
@@ -122,6 +122,6 @@ public class LocalRole extends BaseDomain<LocalRole>
 
   @Override
   public Optional<LocalRole> findById(long id) {
-    return RepositoryFactory.getLocalRoleRepository().findById(id);
+    return RepositoryFactoryHolder.getLocalRoleRepository().findById(id);
   }
 }

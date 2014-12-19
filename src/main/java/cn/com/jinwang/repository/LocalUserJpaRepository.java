@@ -13,18 +13,14 @@ import cn.com.jinwang.guice.JwGuiceServletConfig;
 import cn.com.jinwang.jpql.SortBy;
 
 import com.google.common.base.Optional;
+import com.google.inject.Singleton;
 
+@Singleton
 public class LocalUserJpaRepository extends GenericJpaRepository<LocalUser, Long>
     implements
       LocalUserRepository {
 
-  private static final LocalUserJpaRepository INSTANCE = new LocalUserJpaRepository();
-
-  public static LocalUserJpaRepository getInstance() {
-    return INSTANCE;
-  }
-
-  private LocalUserJpaRepository() {
+  public LocalUserJpaRepository() {
     super(LocalUser.class);
   }
 

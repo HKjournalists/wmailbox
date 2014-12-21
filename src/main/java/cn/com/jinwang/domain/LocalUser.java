@@ -21,6 +21,8 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.bval.constraints.Email;
+
 import cn.com.jinwang.factory.RepositoryFactoryHolder;
 import cn.com.jinwang.interf.HasCreatedAt;
 import cn.com.jinwang.misc.SelectDataModel;
@@ -88,6 +90,7 @@ public class LocalUser extends BaseDomain<LocalUser> implements HasCreatedAt {
   @Expose
   @Column(unique = true)
   @NotNull
+  @Email
   private String email;
 
   @Expose

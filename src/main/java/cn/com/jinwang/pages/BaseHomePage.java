@@ -33,6 +33,14 @@ public class BaseHomePage extends WebPage {
       }
     });
     
+    add(new Link("goToSubmitterOneFormPage") {
+      @Override
+      public void onClick() {
+        setResponsePage(SubmitterOneFormPage.class);
+      }
+    });
+
+    
     add(new HeaderResponseContainer("js-container", "js-container-decorator"));
 
   }

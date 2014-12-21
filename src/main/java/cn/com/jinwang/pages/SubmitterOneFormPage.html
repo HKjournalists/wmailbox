@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+    <form wicket:id="localuserform">
+        <input type="text" wicket:id="nickname"/>
+        <input type="text" wicket:id="email"/>
+        <input type="text" wicket:id="mobile"/>
+        <input type="password" wicket:id="password"/>
+        <input type="submit" wicket:id="submit1"/>
+		<input type="submit" wicket:id="submit2"/>
+        <div wicket:id="feedback"></div>
+    </form>
+    
+    <button wicket:id="submitButton">ajaxSubmitter</button>
+    <wicket:container wicket:id="js-container"/>
+  </body>
+</html>

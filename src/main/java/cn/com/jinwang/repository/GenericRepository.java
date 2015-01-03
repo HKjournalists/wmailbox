@@ -118,6 +118,8 @@ public interface GenericRepository<T, ID extends Serializable> {
   Long countBySql(String sqlstr, long idpara);
 
   List<T> findAll(int startRow, int endRow, Optional<SortBy> sortBy, Optional<String> qstr);
+  
+  List<T> findAll(long first, long count);
 
   long countAll(Optional<String> qstr);
 

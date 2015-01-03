@@ -53,7 +53,6 @@ public class LocalUser extends BaseDomain<LocalUser> implements HasCreatedAt {
   @Expose(serialize = false)
   @Column(nullable = false)
   @NotNull
-  @Size(min = 8, max = 32)
   private String password;
 
   @Expose

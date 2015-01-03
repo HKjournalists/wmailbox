@@ -120,6 +120,17 @@ public abstract class GenericJpaRepository<T extends BaseDomain<T>, ID>
     TypedQuery<Long> q = emProvider.get().createQuery(qs, Long.class);
     return q.getSingleResult();
   }
+  
+  @Override
+  public List<T> findAll(long first, long count) {
+    String cn = persistentClass.getSimpleName();
+    String jpql = "SELECT o FROM %s as o";
+    jpql = String.format(jpql, cn);
+    TypedQuery<T> q = emProvider.get().createQuery(jpql, getEntityClass());
+    q.setFirstResult((int) first);
+    q.setMaxResults((int) count);
+    return q.getResultList();
+  }
 
   @Override
   public int countByExample(T exampleInstance) {

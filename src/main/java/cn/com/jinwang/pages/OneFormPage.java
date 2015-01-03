@@ -1,13 +1,22 @@
 package cn.com.jinwang.pages;
 
+import org.apache.wicket.Application;
 import org.apache.wicket.bean.validation.PropertyValidator;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.markup.head.filter.HeaderResponseContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.request.resource.ResourceReference;
 
+import cn.com.jinwang.assets.pure.PureCss;
+import cn.com.jinwang.components.base.InvisibleActionFormPanel;
+import cn.com.jinwang.components.base.PureAjaxSubmitLink;
 import cn.com.jinwang.domain.LocalUser;
 import cn.com.jinwang.viewmodel.JpaLoadableModel;
 
@@ -50,6 +59,11 @@ public class OneFormPage extends WebPage {
 
   public OneFormPage() {
     add(new LocalUserForm("localuserform"));
+    InvisibleActionFormPanel invisibleActionFormPanel = new InvisibleActionFormPanel("invisibleFormPanel", "aClassName");
+    add(invisibleActionFormPanel);
+    add(new PureAjaxSubmitLink("submitlink","a", "Hello", invisibleActionFormPanel.getForm()){});
+    
+    add(new HeaderResponseContainer("js-container", "js-container-decorator"));
   }
 
   @SuppressWarnings("serial")
@@ -73,5 +87,14 @@ public class OneFormPage extends WebPage {
       LocalUser lu = luModel.getObject();
       lu.save();
     }
+  }
+  
+  @Override
+  public void renderHead(IHeaderResponse response) {
+    super.renderHead(response);
+    Application app = Application.get();
+    ResourceReference jqReference = app.getJavaScriptLibrarySettings().getJQueryReference();
+    response.render(CssHeaderItem.forReference(new PureCss()));
+    response.render(JavaScriptHeaderItem.forReference(jqReference));
   }
 }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+<meta charset="utf-8" />
+<title></title>
+</head>
+<body>
+	<wicket:panel>
+		<div wicket:id="pagingNavigator"></div>
+		<br />
+		<table class="pure-table pure-table-bordered pure-table-striped">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Make</th>
+					<th>Model</th>
+					<th>Year</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr wicket:id="rows">
+					<td wicket:id="dataRow">
+					<input wicket:id="ck" type="checkbox"/>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</wicket:panel>
+</body>
+</html>

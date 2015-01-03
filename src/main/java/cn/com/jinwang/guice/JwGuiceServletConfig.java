@@ -36,17 +36,21 @@ public class JwGuiceServletConfig extends GuiceServletContextListener {
 
   @Override
   protected Injector getInjector() {
-    return getInject("hsqldbfile");
+    return setGlobalInjectorAndgetInjector("hsqldbfile", true);
   }
 
 
-  public Injector getInject(String jpaUnit) {
+  public Injector setGlobalInjectorAndgetInjector(String jpaUnit, final boolean withShiroWebModule) {
     return injector = Guice.createInjector(new ServletModule() {
       @Override
       protected void configureServlets() {
         super.configureServlets();
         install(new JpaPersistModule("hsqldbfile"));
-        install(new JwShiroWebModule(getServletContext()));
+        if (withShiroWebModule) {
+          install(new JwShiroWebModule(getServletContext()));
+        } else {
+//          install(new ShiroModule());
+        }
         filter("/*").through(PersistFilter.class);
 
         Map<String, String> params = new HashMap<String, String>();

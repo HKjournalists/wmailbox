@@ -15,7 +15,7 @@ public class RandomUserGenerator {
       lu.setEmail(RandomStringGenerator.randomAlphabetic(16) + "@g.cn");
       lu.setNickname(RandomStringGenerator.randomAlphabetic(16));
       lu.setMobile(RandomStringGenerator.randomNumeric(11));
-      lu = SecUtil.setUserPwd(lu, "123456");
+      lu = SecUtil.setUserPwd(lu, "12345678910");
       lus.add(lu);
     }
     return lus;

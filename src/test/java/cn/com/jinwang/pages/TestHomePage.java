@@ -6,11 +6,12 @@ import org.junit.Test;
 
 import cn.com.jinwang.pages.BaseHomePage;
 import cn.com.jinwang.pages.WicketApplicationPlain;
+import cn.com.jinwang.reposotory.JpaTestBase;
 
 /**
  * Simple test using the WicketTester
  */
-public class TestHomePage {
+public class TestHomePage extends JpaTestBase{
   private WicketTester tester;
 
   @Before

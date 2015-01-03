@@ -33,7 +33,7 @@ public abstract class JpaTestBase {
   
   @BeforeClass
   public static void injectorSetup() {
-    injector = new JwGuiceServletConfig().getInject("hsqldbfile");
+    injector = new JwGuiceServletConfig().setGlobalInjectorAndgetInjector("hsqldbfile", false);
     injector.getInstance(PersistService.class).start();
   }
   

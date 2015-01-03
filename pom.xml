@@ -56,6 +56,14 @@
 
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-guice</artifactId>
+			<version>${wicket.version}</version>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-bean-validation</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
@@ -63,6 +71,24 @@
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-extensions</artifactId>
+			<version>${wicket.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-jmx</artifactId>
+			<version>${wicket.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-devutils</artifactId>
+			<version>${wicket.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-velocity</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
 

@@ -3,6 +3,7 @@ package cn.com.jinwang.pages;
 import org.apache.wicket.Application;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.ResourceReference;
+import org.apache.wicket.devutils.DevUtilsPage;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
@@ -11,6 +12,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.WebPage;
 
 import cn.com.jinwang.assets.pure.PureCss;
+import cn.com.jinwang.layout.pureemail.PureEmailLayout;
 import cn.com.jinwang.pages.security.SignInPage;
 
 public class BaseHomePage extends WebPage {
@@ -18,21 +20,21 @@ public class BaseHomePage extends WebPage {
 
   public BaseHomePage(final PageParameters parameters) {
     super(parameters);
-    
+
     add(new Link("goToSignInPage") {
       @Override
       public void onClick() {
         setResponsePage(SignInPage.class);
       }
     });
-    
+
     add(new Link("goToOneFormPage") {
       @Override
       public void onClick() {
         setResponsePage(OneFormPage.class);
       }
     });
-    
+
     add(new Link("goToSubmitterOneFormPage") {
       @Override
       public void onClick() {
@@ -40,7 +42,29 @@ public class BaseHomePage extends WebPage {
       }
     });
 
+    add(new Link("goToPureTablePage") {
+      @Override
+      public void onClick() {
+        setResponsePage(PureTablePage.class);
+      }
+    });
     
+    add(new Link("goToDevUtilsPage") {
+      @Override
+      public void onClick() {
+        setResponsePage(DevUtilsPage.class);
+      }
+    });
+    
+    add(new Link("goToPureEmailPage") {
+      @Override
+      public void onClick() {
+        setResponsePage(PureEmailLayout.class);
+      }
+    });
+    
+
+
     add(new HeaderResponseContainer("js-container", "js-container-decorator"));
 
   }

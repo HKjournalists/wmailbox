@@ -45,9 +45,13 @@ public class WicketApplicationPlain extends WebApplication {
   @Override
   public void init() {
     super.init();
+    
     getMarkupSettings().setStripWicketTags(true);
+    
     new BeanValidationConfiguration().configure(this);
     properties = loadProperties();
+    
+    boolean dev = getDebugSettings().isDevelopmentUtilitiesEnabled();
 //    String unitName = properties.getProperty("jpa.unit");
 
 //    if (unitName == null || unitName.isEmpty()) {
@@ -85,8 +89,8 @@ public class WicketApplicationPlain extends WebApplication {
       ;
     } else {
       long usernum = RepositoryFactoryHolder.getLocalUserRepository().countAll();
-      if (usernum < 1) {
-        for (LocalUser lu : RandomUserGenerator.randomUsers(50)) {
+      if (usernum < 50) {
+        for (LocalUser lu : RandomUserGenerator.randomUsers(500)) {
           RepositoryFactoryHolder.getLocalUserRepository().save(lu);
         }
       }

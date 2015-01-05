@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import cn.com.jinwang.assets.pure.PureButtonMarkup;
-import cn.com.jinwang.components.base.PureButtonGroup;
+import cn.com.jinwang.components.pure.PureButtonGroup;
 
 public class TestPureButtonGroup {
   private WicketTester tester;

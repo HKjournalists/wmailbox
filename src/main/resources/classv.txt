@@ -1,0 +1,1 @@
+e:\class-visualizer\clsvis.bat -cp d:/mavenrepo/repository d:\mavenrepo\repository\org\apache\wicket\wicket-extensions\6.18.0\wicket-extensions-6.18.0.jar

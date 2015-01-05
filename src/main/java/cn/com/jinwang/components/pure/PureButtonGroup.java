@@ -1,4 +1,4 @@
-package cn.com.jinwang.components.base;
+package cn.com.jinwang.components.pure;
 
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.markup.IMarkupCacheKeyProvider;

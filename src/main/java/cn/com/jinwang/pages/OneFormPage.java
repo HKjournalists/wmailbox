@@ -16,7 +16,7 @@ import org.apache.wicket.request.resource.ResourceReference;
 
 import cn.com.jinwang.assets.pure.PureCss;
 import cn.com.jinwang.components.base.InvisibleActionFormPanel;
-import cn.com.jinwang.components.base.PureAjaxSubmitLink;
+import cn.com.jinwang.components.pure.PureAjaxSubmitLink;
 import cn.com.jinwang.domain.LocalUser;
 import cn.com.jinwang.viewmodel.JpaLoadableModel;
 

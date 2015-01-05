@@ -1,10 +1,11 @@
-package cn.com.jinwang.components.base;
+package cn.com.jinwang.components.pure;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.Model;
 
+import cn.com.jinwang.components.base.BodyOnlyLabel;
 import cn.com.jinwang.constant.PureCssName;
 
 public class PureAjaxSubmitLink extends AjaxSubmitLink {

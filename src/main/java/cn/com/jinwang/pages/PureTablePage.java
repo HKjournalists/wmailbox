@@ -24,9 +24,10 @@ import org.apache.wicket.model.Model;
 import cn.com.jinwang.assets.pure.PureButtonMarkup;
 import cn.com.jinwang.assets.pure.PureButtonStyle;
 import cn.com.jinwang.assets.pure.PureCss;
-import cn.com.jinwang.components.base.PureButtonGroup;
-import cn.com.jinwang.components.base.PureTable;
-import cn.com.jinwang.components.base.PureTable.JpaLocalUserProvider;
+import cn.com.jinwang.components.datable.JwDataTable;
+import cn.com.jinwang.components.pure.PureButtonGroup;
+import cn.com.jinwang.components.pure.PureTable;
+import cn.com.jinwang.components.pure.PureTable.JpaLocalUserProvider;
 import cn.com.jinwang.domain.LocalUser;
 import cn.com.jinwang.utilbase.UiSize;
 
@@ -58,7 +59,7 @@ public class PureTablePage extends WebPage {
     columns.add(new PropertyColumn<LocalUser, String>(new Model<String>("email"), "email", "email"));
     columns.add(new PropertyColumn<LocalUser, String>(new Model<String>("mobile"), "mobile"));
     
-    DataTable<LocalUser, String> table = new DefaultDataTable<LocalUser, String>("datatable", columns, new JpaLocalUserProvider(), 10);
+    DataTable<LocalUser, String> table = new JwDataTable<LocalUser, String>("datatable", columns, new JpaLocalUserProvider(), 10);
     
     add(table);
 

@@ -1,16 +1,14 @@
-package cn.com.jinwang.components.datable;
+package cn.com.jinwang.components.pure;
 
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.NavigationToolbar;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 
-import cn.com.jinwang.components.pure.PurePagingNavigator;
-
-public class JwNavigationToolbar extends NavigationToolbar {
+public class PureNavigationToolbar  extends NavigationToolbar {
 
   private static final long serialVersionUID = 1L;
   
-  public JwNavigationToolbar(DataTable<?, ?> table) {
+  public PureNavigationToolbar(DataTable<?, ?> table) {
     super(table);
   }
 
@@ -18,5 +16,6 @@ public class JwNavigationToolbar extends NavigationToolbar {
   protected PagingNavigator newPagingNavigator(String navigatorId, DataTable<?, ?> table) {
     return new PurePagingNavigator(navigatorId, table);
   }
+  
 
 }

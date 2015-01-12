@@ -51,4 +51,4 @@ target/
 testdbfolder/
 node_modules/
 *.log
-velocity.*
+velocity.*.*

@@ -11,6 +11,7 @@ import org.apache.wicket.markup.head.filter.HeaderResponseContainer;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.WebPage;
 
+import cn.com.jingwang.examples.ExAjaxCheckbox;
 import cn.com.jinwang.assets.pure.PureCss;
 import cn.com.jinwang.layout.pureemail.PureEmailLayout;
 import cn.com.jinwang.pages.security.SignInPage;
@@ -60,6 +61,13 @@ public class BaseHomePage extends WebPage {
       @Override
       public void onClick() {
         setResponsePage(PureEmailLayout.class);
+      }
+    });
+    
+    add(new Link("ajaxcheckbox") {
+      @Override
+      public void onClick() {
+        setResponsePage(ExAjaxCheckbox.class);
       }
     });
     

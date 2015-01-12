@@ -1,0 +1,15 @@
+/*!
+Jw DataTable css v0.1.0
+*/
+.pure-table {
+	width: 100%;
+}
+
+.pure-paginator .pure-button {
+	padding: .4em .7em;
+}
+
+.navigatorLabel {
+	float: right;
+	padding: .4em .7em;
+}

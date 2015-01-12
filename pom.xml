@@ -151,6 +151,12 @@
 
 		<dependency>
 			<groupId>org.wicketstuff</groupId>
+			<artifactId>wicketstuff-tinymce</artifactId>
+			<version>${wicketstuff.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.wicketstuff</groupId>
 			<artifactId>wicketstuff-inmethod-grid</artifactId>
 			<version>${wicketstuff.version}</version>
 		</dependency>

@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
@@ -22,6 +24,7 @@ import cn.com.jinwang.interf.HasCreator;
 import cn.com.jinwang.interf.HasPermissionString;
 import cn.com.jinwang.interf.HasSharedGroups;
 import cn.com.jinwang.interf.HasSharedUsers;
+import cn.com.jinwang.interf.Tree;
 import cn.com.jinwang.misc.DomainUtils;
 
 import com.google.common.base.Optional;
@@ -38,10 +41,11 @@ import javax.persistence.JoinTable;
  */
 @Entity
 @Table(name = "USER_GROUP", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})})
-public class UserGroup extends BaseDomain<UserGroup>
+public class UserGroup extends BaseTreeDomain<UserGroup>
     implements
       HasCreatedAt,
       HasCreator,
+      Tree<UserGroup>,
       HasSharedUsers,
       HasSharedGroups,
       HasPermissionString,
@@ -56,16 +60,24 @@ public class UserGroup extends BaseDomain<UserGroup>
   @Expose
   private String name;
 
+  @Expose
+  private int position;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "creator_id", referencedColumnName = "id")
   private LocalUser creator;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "parentId")
+  private UserGroup parent;
+
+  @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+  @OrderBy("position ASC")
+  private List<UserGroup> children = Lists.newArrayList();
+
   @Expose
   @Temporal(TIMESTAMP)
   private Date createdAt = new Date();
-
-  // @OneToMany(fetch = FetchType.LAZY)
-  // private List<NameValueValue> nameValueValues = Lists.newArrayList();
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(joinColumns = @JoinColumn(name = "UserGroup_id", referencedColumnName = "id"))
@@ -79,6 +91,19 @@ public class UserGroup extends BaseDomain<UserGroup>
 
   @ManyToMany(fetch = FetchType.LAZY)
   private Set<UserGroup> sharedGroups = Sets.newHashSet();
+
+  public int getDepth() {
+    String[] ss = getParentIds().split(",");
+    int i = 0;
+    for (String s : ss) {
+      if (s == null || s.trim().isEmpty()) {
+
+      } else {
+        i++;
+      }
+    }
+    return i;
+  }
 
   public Set<LocalRole> getRoles() {
     return roles;
@@ -139,12 +164,11 @@ public class UserGroup extends BaseDomain<UserGroup>
   }
 
   public static Optional<UserGroup> find(long id) {
-    // return StaticEntityManagerHolder.getUgRepo().findById(id);
-    return null;
+    return RepositoryFactoryHolder.getUserGroupRepository().findById(id);
   }
 
   public static void delete(UserGroup ug) {
-    // StaticEntityManagerHolder.getUgRepo().delete(ug);
+    RepositoryFactoryHolder.getUserGroupRepository().delete(ug);
   }
 
   public UserGroup save() {
@@ -223,6 +247,41 @@ public class UserGroup extends BaseDomain<UserGroup>
   @Override
   public Optional<UserGroup> findById(long id) {
     return RepositoryFactoryHolder.getUserGroupRepository().findById(id);
+  }
+
+  public UserGroup getParent() {
+    return parent;
+  }
+
+  public void setParent(UserGroup parent) {
+    this.parent = parent;
+    DomainUtils.setParentIds(this);
+  }
+
+  public List<UserGroup> getChildren() {
+    return children;
+  }
+
+  public void setChildren(List<UserGroup> children) {
+    this.children = children;
+  }
+
+  @Override
+  public void setParentIds() {
+    DomainUtils.setParentIds(this);
+  }
+
+  @Override
+  public List<UserGroup> getBreadCrumb() {
+    return DomainUtils.getBreadCrumb(this);
+  }
+
+  public int getPosition() {
+    return position;
+  }
+
+  public void setPosition(int position) {
+    this.position = position;
   }
 
 }

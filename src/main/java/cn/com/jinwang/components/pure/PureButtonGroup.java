@@ -54,9 +54,7 @@ public class PureButtonGroup extends Panel
     }
 
     private StringBuilder tpl = new StringBuilder(
-        "<wicket:panel><div> <style scoped>"
-            + ".button-xsmall { font-size: 70%; } .button-small { font-size: 85%; } .button-large { font-size: 110%; } .button-xlarge { font-size: 125%; }"
-            + "</style>");
+        "<wicket:panel><div style=\"padding-top: .7em;padding-left: 1em;\">");
     
     @Override
     public String toString() {
@@ -70,6 +68,9 @@ public class PureButtonGroup extends Panel
 
 }
 /*
+ * 
+    
+
  * <div> <style scoped>
  * 
  * .button-xsmall { font-size: 70%; }

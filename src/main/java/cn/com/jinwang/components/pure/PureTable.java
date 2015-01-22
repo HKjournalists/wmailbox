@@ -18,6 +18,8 @@ import org.apache.wicket.model.Model;
 
 import cn.com.jinwang.domain.LocalUser;
 import cn.com.jinwang.factory.RepositoryFactoryHolder;
+import cn.com.jinwang.viewmodel.JpaDataProvider;
+import cn.com.jinwang.viewmodel.LocalUserDataProvider;
 
 public class PureTable extends Panel {
 
@@ -28,7 +30,7 @@ public class PureTable extends Panel {
 
   public PureTable(String id, IModel<?> model) {
     super(id, model);
-    IDataProvider<LocalUser> dataProvider = new JpaLocalUserProvider();
+    IDataProvider<LocalUser> dataProvider = new LocalUserDataProvider();
 
     @SuppressWarnings("serial")
     DataView<LocalUser> dataView = new DataView<LocalUser>("rows", dataProvider) {
@@ -36,17 +38,17 @@ public class PureTable extends Panel {
       protected void populateItem(Item<LocalUser> item) {
         LocalUser lu = item.getModelObject();
         RepeatingView repeatingView = new RepeatingView("dataRow");
-        
+
         AbstractItem aitem = new AbstractItem(repeatingView.newChildId());
-        
+
         aitem.add(new CheckBox("ck"));
-        
+
         repeatingView.add(aitem);
         repeatingView.add(new Label(repeatingView.newChildId(), Model.of(lu.getId())));
         repeatingView.add(new Label(repeatingView.newChildId(), Model.of(lu.getEmail())));
         repeatingView.add(new Label(repeatingView.newChildId(), Model.of(lu.getActivityState())));
         repeatingView.add(new Label(repeatingView.newChildId(), Model.of(lu.getMobile())));
-        
+
         item.add(repeatingView);
       }
     };
@@ -55,35 +57,5 @@ public class PureTable extends Panel {
 
     add(dataView);
     add(new AjaxPagingNavigator("pagingNavigator", dataView));
-  }
-
-
-  @SuppressWarnings("serial")
-  public static class JpaLocalUserProvider extends SortableDataProvider<LocalUser, String > {
-    
-    public JpaLocalUserProvider() {
-      setSort("email",SortOrder.ASCENDING);
-    }
-
-    @Override
-    public void detach() {
-
-    }
-
-    @Override
-    public Iterator<LocalUser> iterator(long first, long count) {
-      return RepositoryFactoryHolder.getLocalUserRepository().findAll(first, count).iterator();
-    }
-
-    @Override
-    public long size() {
-      return RepositoryFactoryHolder.getLocalUserRepository().countAll();
-    }
-
-
-    @Override
-    public IModel<LocalUser> model(LocalUser object) {
-      return Model.of(object);
-    }
   }
 }

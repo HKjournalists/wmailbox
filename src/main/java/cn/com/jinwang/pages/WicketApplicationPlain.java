@@ -12,9 +12,12 @@ import org.apache.wicket.markup.head.filter.JavaScriptFilteredIntoFooterHeaderRe
 import org.apache.wicket.markup.html.IHeaderResponseDecorator;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.util.io.IOUtils;
 import org.wicketstuff.shiro.annotation.AnnotationsShiroAuthorizationStrategy;
 
+import cn.com.jinwang.assets.pure.PureCss;
+import cn.com.jinwang.assets.pure.PureStyleCss;
 import cn.com.jinwang.domain.LocalUser;
 import cn.com.jinwang.factory.RepositoryFactoryHolder;
 import cn.com.jinwang.utilbase.RandomUserGenerator;
@@ -45,20 +48,20 @@ public class WicketApplicationPlain extends WebApplication {
   @Override
   public void init() {
     super.init();
-    
+
     getMarkupSettings().setStripWicketTags(true);
-    
+
     new BeanValidationConfiguration().configure(this);
     properties = loadProperties();
-    
+
     boolean dev = getDebugSettings().isDevelopmentUtilitiesEnabled();
-//    String unitName = properties.getProperty("jpa.unit");
+    // String unitName = properties.getProperty("jpa.unit");
 
-//    if (unitName == null || unitName.isEmpty()) {
-//      throw new WicketRuntimeException("jpa unit not configed in config.properties");
-//    }
+    // if (unitName == null || unitName.isEmpty()) {
+    // throw new WicketRuntimeException("jpa unit not configed in config.properties");
+    // }
 
-//    EntityManagerFactoryHolder.init(unitName);
+    // EntityManagerFactoryHolder.init(unitName);
 
     createSampleData();
 
@@ -100,7 +103,8 @@ public class WicketApplicationPlain extends WebApplication {
 
   private void configureResourceBundles() {
     ResourceBundles bundles = getResourceBundles();
-    bundles.addCssBundle(WicketApplicationPlain.class, "pure-min.css");
+    bundles.addCssBundle(WicketApplicationPlain.class, "pure-combo.css", new PureCss(),
+        new PureStyleCss());
   }
 
   /**

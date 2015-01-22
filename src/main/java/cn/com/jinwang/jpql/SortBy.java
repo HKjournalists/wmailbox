@@ -18,6 +18,13 @@ public class SortBy {
       setDirection("ASC");
     }
   }
+  
+  public SortBy(String field, boolean ascending) {
+      setAsc(ascending);
+      setField(field);
+      setDirection( ascending ? "ASC" : "DESC");
+  }
+
 
   public String getString(String dn) {
     // a.publishedAt DESC

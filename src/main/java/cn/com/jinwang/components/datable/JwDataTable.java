@@ -20,7 +20,7 @@ public class JwDataTable<T, S> extends DataTable<T, S> {
   public JwDataTable(final String id, final List<? extends IColumn<T, S>> columns,
       final ISortableDataProvider<T, S> dataProvider, final int rowsPerPage) {
     super(id, columns, dataProvider, rowsPerPage);
-
+    
     addTopToolbar(new HeadersToolbar<S>(this, dataProvider));
     addBottomToolbar(new NoRecordsToolbar(this));
     addBottomToolbar(new JwNavigationToolbar(this));

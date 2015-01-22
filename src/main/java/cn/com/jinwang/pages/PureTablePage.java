@@ -1,5 +1,6 @@
 package cn.com.jinwang.pages;
 
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +29,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
@@ -40,17 +42,18 @@ import cn.com.jinwang.components.datable.CheckBoxColumn;
 import cn.com.jinwang.components.datable.JwDataTable;
 import cn.com.jinwang.components.pure.PureButtonGroup;
 import cn.com.jinwang.components.pure.PureTable;
-import cn.com.jinwang.components.pure.PureTable.JpaLocalUserProvider;
 import cn.com.jinwang.domain.BaseDomain;
 import cn.com.jinwang.domain.LocalUser;
 import cn.com.jinwang.interf.HasLongId;
 import cn.com.jinwang.utilbase.UiSize;
+import cn.com.jinwang.viewmodel.JpaDataProvider;
+import cn.com.jinwang.viewmodel.LocalUserDataProvider;
 
 public class PureTablePage extends WebPage {
   private static final long serialVersionUID = 1L;
 
 
-  private Set<LocalUser> selected = new HashSet<LocalUser>();
+  private Set<Long> selected = new HashSet<Long>();
 
   /**
    * NOTE To use the AjaxPagingNavigator, you have to put your ListView in a WebMarkupContainer,
@@ -71,15 +74,21 @@ public class PureTablePage extends WebPage {
     add(new PureButtonGroup("btn-group", new PureButtonMarkup("a", "Hello Btn",
         new PureButtonStyle(UiSize.XSMALL, false, false))));
 
-    Form<?> form = new Form("form") {
-      @Override
-      protected void onSubmit() {
-        for (LocalUser contact : selected) {
-          info("Selected " + contact.getEmail());
-        }
-      }
-    };
-    add(form);
+    // Form<?> form = new Form("form") {
+    // @Override
+    // protected void onSubmit() {
+    // for (Long contact : selected) {
+    // info("Selected: " + contact);
+    // }
+    // }
+    // };
+    // add(form);
+    
+    Form<?> filterform = new Form<Void>("filterform");
+    add(filterform);
+    Model<String> filterModel = Model.of("");
+    filterform.add(new TextField<String>("filterinput", filterModel));
+    
 
     List<IColumn<LocalUser, String>> columns = new ArrayList<IColumn<LocalUser, String>>();
 
@@ -87,43 +96,12 @@ public class PureTablePage extends WebPage {
         .add(new PropertyColumn<LocalUser, String>(new Model<String>("email"), "email", "email"));
     columns.add(new PropertyColumn<LocalUser, String>(new Model<String>("mobile"), "mobile"));
 
-    columns.add(new CheckBoxColumn<LocalUser, String>(Model.of("")) {
-
-      private static final long serialVersionUID = 1L;
-
-      @Override
-      protected IModel<Boolean> newCheckBoxModel(final IModel<LocalUser> rowModel) {
-        return new AbstractCheckBoxModel() {
-
-          private static final long serialVersionUID = 1L;
-
-          @Override
-          public void unselect() {
-            selected.remove(rowModel.getObject());
-          }
-
-          @Override
-          public void select() {
-            selected.add(rowModel.getObject());
-          }
-
-          @Override
-          public boolean isSelected() {
-            return selected.contains(rowModel.getObject());
-          }
-
-          @Override
-          public void detach() {
-            rowModel.detach();
-          }
-        };
-      }
-    });
-    // columns.add(new DomainIdColumn(Model.of("ID")));
+    columns.add(new CheckBoxColumn<LocalUser, String>(selected, Model.of("select")));
     DataTable<LocalUser, String> table =
-        new JwDataTable<LocalUser, String>("datatable", columns, new JpaLocalUserProvider(), 10);
+        new JwDataTable<LocalUser, String>("datatable", columns, new LocalUserDataProvider(filterModel), 10);
 
-    form.add(table);
+    // form.add(table);
+    add(table);
 
     add(new DebugBar("debug"));
     add(new FeedbackPanel("feedback"));

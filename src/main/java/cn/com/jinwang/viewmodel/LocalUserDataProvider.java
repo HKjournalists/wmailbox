@@ -7,8 +7,6 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.eclipse.persistence.internal.queries.EntityFetchGroup;
 
-import sun.misc.Sort;
-
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 
@@ -37,7 +35,7 @@ public class LocalUserDataProvider extends JpaDataProvider<LocalUser> {
       osb = Optional.of(sb);
     }
     return RepositoryFactoryHolder.getLocalUserRepository()
-        .findAll((int) first, (int) count, osb, getQueryStr()).iterator();
+        .findAll((int) first, (int)(first + count), osb, getQueryStr()).iterator();
   }
 
   @Override

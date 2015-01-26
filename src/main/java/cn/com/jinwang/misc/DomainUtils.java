@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import cn.com.jinwang.domain.BaseDomain;
+import cn.com.jinwang.domain.BaseTreeDomain;
 import cn.com.jinwang.interf.HasCreator;
 import cn.com.jinwang.interf.Tree;
 
@@ -59,7 +60,7 @@ public class DomainUtils {
     return b;
   }
 
-  public static <T extends Tree<T>> void setParentIds(T domain) {
+  public static <T extends BaseTreeDomain<T>> void setParentIds(T domain) {
     // [4,3,2,1]last is top
     List<T> parents = Lists.newArrayList();
     T p = domain.getParent();

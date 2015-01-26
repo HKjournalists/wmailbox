@@ -45,7 +45,7 @@ public abstract class GenericJpaRepository<T extends BaseDomain<T>, ID>
   private Splitter commaSplitter = Splitter.on(",").omitEmptyStrings();
 
   @Inject
-  private Provider<EntityManager> emProvider;
+  protected Provider<EntityManager> emProvider;
 
   public GenericJpaRepository(Class<T> persistentClass) {
     super();
@@ -219,25 +219,6 @@ public abstract class GenericJpaRepository<T extends BaseDomain<T>, ID>
     q.setFirstResult(startRow);
     q.setMaxResults(endRow - startRow);
     return q.getResultList();
-  }
-
-  public List<T> findAllTop(int startRow, int endRow, Optional<SortBy> sortBy) {
-    SortBy sb = getSortByOrDefault(sortBy);
-    String qs =
-        "SELECT p from " + getEntityClass().getSimpleName()
-            + " as p where p.parent is NULL order by p." + sb.getField() + " " + sb.getDirection();
-    TypedQuery<T> q = emProvider.get().createQuery(qs, getEntityClass());
-    q.setFirstResult(startRow);
-    q.setMaxResults(endRow - startRow);
-    return q.getResultList();
-  }
-
-  public long countAllTop() {
-    String qs =
-        "SELECT count(distinct p) from " + getEntityClass().getSimpleName()
-            + " as p where p.parent is NULL";
-    TypedQuery<Long> q = emProvider.get().createQuery(qs, Long.class);
-    return q.getSingleResult();
   }
 
   public List<T> findAllTopMine(LocalUser user, int startRow, int endRow, Optional<SortBy> sortBy) {

@@ -1,4 +1,5 @@
 e:\class-visualizer\clsvis.bat -cp d:/mavenrepo/repository d:\mavenrepo\repository\org\apache\wicket\wicket-extensions\6.18.0\wicket-extensions-6.18.0.jar
+e:\class-visualizer\clsvis.bat -cp d:/mavenrepo/repository d:\mavenrepo\repository\org\apache\wicket\wicket-extensions\6.18.0\wicket-examples-6.18.0.jar
 
 以e:\class-visualizer\clsvis.bat -cp d:/mavenrepo/repository启动，然后通过菜单导入jar，不是source。
 

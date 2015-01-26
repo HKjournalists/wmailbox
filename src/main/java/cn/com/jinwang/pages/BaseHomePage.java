@@ -57,6 +57,15 @@ public class BaseHomePage extends WebPage {
       }
     });
     
+    
+    
+    add(new Link("goToUserGroupPage") {
+      @Override
+      public void onClick() {
+        setResponsePage(UserGroupTreePage.class);
+      }
+    });
+    
     add(new Link("goToPureEmailPage") {
       @Override
       public void onClick() {

@@ -25,8 +25,7 @@ public class JpaLoadableModel<T extends BaseDomain<T>> extends LoadableDetachabl
   }
 
   /**
-   * when create new entity,you will find no record from back end.
-   * so create one.
+   * when create new entity,you will find no record from back end. so create one.
    */
   @Override
   protected T load() {
@@ -51,5 +50,26 @@ public class JpaLoadableModel<T extends BaseDomain<T>> extends LoadableDetachabl
     T entity = getObject();
     if (entity == null) return;
     this.identifier = entity.getId();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof JpaLoadableModel) {
+      return ((JpaLoadableModel<T>) obj).getIdentifier().equals(identifier);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return identifier.hashCode();
+  }
+
+  public Long getIdentifier() {
+    return identifier;
+  }
+
+  public void setIdentifier(Long identifier) {
+    this.identifier = identifier;
   }
 }

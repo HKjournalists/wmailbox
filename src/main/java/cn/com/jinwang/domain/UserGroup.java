@@ -6,21 +6,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.persistence.UniqueConstraint;
 
 import cn.com.jinwang.factory.RepositoryFactoryHolder;
 import cn.com.jinwang.interf.CanCopyProterties;
 import cn.com.jinwang.interf.HasCreatedAt;
 import cn.com.jinwang.interf.HasCreator;
+import cn.com.jinwang.interf.HasDisplayLabel;
 import cn.com.jinwang.interf.HasPermissionString;
 import cn.com.jinwang.interf.HasSharedGroups;
 import cn.com.jinwang.interf.HasSharedUsers;
@@ -40,7 +39,7 @@ import javax.persistence.JoinTable;
  * 
  */
 @Entity
-@Table(name = "USER_GROUP", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})})
+@Table(name = "USER_GROUP")
 public class UserGroup extends BaseTreeDomain<UserGroup>
     implements
       HasCreatedAt,
@@ -49,6 +48,7 @@ public class UserGroup extends BaseTreeDomain<UserGroup>
       HasSharedUsers,
       HasSharedGroups,
       HasPermissionString,
+      HasDisplayLabel,
       CanCopyProterties<UserGroup> {
 
   public static enum ActionEnum {
@@ -57,7 +57,14 @@ public class UserGroup extends BaseTreeDomain<UserGroup>
 
   private static final long serialVersionUID = 1L;
 
+  public UserGroup() {}
+
+  public UserGroup(String name) {
+    this.name = name;
+  }
+
   @Expose
+  @Column(unique = true)
   private String name;
 
   @Expose
@@ -67,13 +74,7 @@ public class UserGroup extends BaseTreeDomain<UserGroup>
   @JoinColumn(name = "creator_id", referencedColumnName = "id")
   private LocalUser creator;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "parentId")
-  private UserGroup parent;
 
-  @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
-  @OrderBy("position ASC")
-  private List<UserGroup> children = Lists.newArrayList();
 
   @Expose
   @Temporal(TIMESTAMP)
@@ -249,23 +250,6 @@ public class UserGroup extends BaseTreeDomain<UserGroup>
     return RepositoryFactoryHolder.getUserGroupRepository().findById(id);
   }
 
-  public UserGroup getParent() {
-    return parent;
-  }
-
-  public void setParent(UserGroup parent) {
-    this.parent = parent;
-    DomainUtils.setParentIds(this);
-  }
-
-  public List<UserGroup> getChildren() {
-    return children;
-  }
-
-  public void setChildren(List<UserGroup> children) {
-    this.children = children;
-  }
-
   @Override
   public void setParentIds() {
     DomainUtils.setParentIds(this);
@@ -282,6 +266,11 @@ public class UserGroup extends BaseTreeDomain<UserGroup>
 
   public void setPosition(int position) {
     this.position = position;
+  }
+
+  @Override
+  public String getLabel() {
+    return name;
   }
 
 }

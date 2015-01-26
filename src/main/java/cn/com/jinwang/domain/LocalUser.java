@@ -37,8 +37,7 @@ import com.google.gson.annotations.Expose;
  * varchar(255) default null;
  */
 @Entity
-@Table(name = "LOCAL_USER", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"}),
-    @UniqueConstraint(columnNames = {"mobile"})})
+@Table(name = "LOCAL_USER")
 public class LocalUser extends BaseDomain<LocalUser> implements HasCreatedAt {
 
   private static final long serialVersionUID = 1L;

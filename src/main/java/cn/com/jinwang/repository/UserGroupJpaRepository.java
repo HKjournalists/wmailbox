@@ -15,7 +15,7 @@ import com.google.common.base.Optional;
 import com.google.inject.Singleton;
 
 @Singleton
-public class UserGroupJpaRepository extends GenericJpaRepository<UserGroup, Long>
+public class UserGroupJpaRepository extends GenericJpaTreeRepository<UserGroup, Long>
     implements
       UserGroupRepository {
 

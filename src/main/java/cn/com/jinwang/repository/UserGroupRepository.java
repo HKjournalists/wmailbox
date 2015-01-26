@@ -8,7 +8,7 @@ import cn.com.jinwang.domain.UserGroup;
 
 import com.google.common.base.Optional;
 
-public interface UserGroupRepository extends GenericRepository<UserGroup, Long> {
+public interface UserGroupRepository extends GenericTreeRepository<UserGroup, Long> {
 
   List<UserGroup> hasThisPermission(MixDomainPermission mp);
 

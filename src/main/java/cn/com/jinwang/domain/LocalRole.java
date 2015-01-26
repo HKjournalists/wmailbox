@@ -12,7 +12,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.persistence.UniqueConstraint;
 
 import cn.com.jinwang.factory.RepositoryFactoryHolder;
 import cn.com.jinwang.interf.CanCopyProterties;
@@ -32,7 +31,7 @@ import javax.persistence.Column;
  * 
  */
 @Entity
-@Table(name = "LOCAL_ROLE", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})})
+@Table(name = "LOCAL_ROLE")
 public class LocalRole extends BaseDomain<LocalRole>
     implements
       HasCreatedAt,

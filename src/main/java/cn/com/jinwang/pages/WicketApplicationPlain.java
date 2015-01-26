@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.apache.wicket.ConverterLocator;
+import org.apache.wicket.IConverterLocator;
 import org.apache.wicket.ResourceBundles;
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.bean.validation.BeanValidationConfiguration;
@@ -21,6 +23,7 @@ import cn.com.jinwang.assets.pure.PureStyleCss;
 import cn.com.jinwang.domain.LocalUser;
 import cn.com.jinwang.factory.RepositoryFactoryHolder;
 import cn.com.jinwang.utilbase.RandomUserGenerator;
+import cn.com.jinwang.utilbase.SamplerCreator;
 
 /**
  * Application object for your web application. If you want to run this application without
@@ -48,7 +51,7 @@ public class WicketApplicationPlain extends WebApplication {
   @Override
   public void init() {
     super.init();
-
+    
     getMarkupSettings().setStripWicketTags(true);
 
     new BeanValidationConfiguration().configure(this);
@@ -84,20 +87,15 @@ public class WicketApplicationPlain extends WebApplication {
   }
 
 
+  @Override
+  protected IConverterLocator newConverterLocator() {
+    ConverterLocator locator = (ConverterLocator) super.newConverterLocator();
+//    locator.set(c, converter);
+    return locator;
+  }
 
   private void createSampleData() {
-    String sampleCfg = properties.getProperty("db.sampledata");
-
-    if (sampleCfg == null || sampleCfg.isEmpty()) {
-      ;
-    } else {
-      long usernum = RepositoryFactoryHolder.getLocalUserRepository().countAll();
-      if (usernum < 50) {
-        for (LocalUser lu : RandomUserGenerator.randomUsers(500)) {
-          RepositoryFactoryHolder.getLocalUserRepository().save(lu);
-        }
-      }
-    }
+    new SamplerCreator(properties).createSamples();
   }
 
 
